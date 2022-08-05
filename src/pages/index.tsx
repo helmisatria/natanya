@@ -9,7 +9,7 @@ export default function HomePage() {
     <Layout>
       {/* <Seo templateTitle='Home' /> */}
       <Seo />
-      <Title align='center' mt={100}>
+      <Title align='center' mt={300}>
         Welcome to{' '}
         <Text inherit variant='gradient' component='span'>
           Natanya
