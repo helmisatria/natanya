@@ -1,5 +1,5 @@
-import Head from 'next/head';
-import { useRouter } from 'next/router';
+import Head from 'next/head'
+import { useRouter } from 'next/router'
 
 // !STARTERCONF Change these default meta
 const defaultMeta = {
@@ -16,22 +16,22 @@ const defaultMeta = {
    * If you wish to use a normal image, just specify the path below
    */
   image: 'https://tsnext-tw.thcl.dev/images/large-og.png',
-};
+}
 
 type SeoProps = {
-  date?: string;
-  templateTitle?: string;
-} & Partial<typeof defaultMeta>;
+  date?: string
+  templateTitle?: string
+} & Partial<typeof defaultMeta>
 
 export default function Seo(props: SeoProps) {
-  const router = useRouter();
+  const router = useRouter()
   const meta = {
     ...defaultMeta,
     ...props,
-  };
+  }
   meta['title'] = props.templateTitle
     ? `${props.templateTitle} | ${meta.siteName}`
-    : meta.title;
+    : meta.title
 
   // Use siteName if there is templateTitle
   // but show full title if there is none
@@ -89,15 +89,15 @@ export default function Seo(props: SeoProps) {
       />
       <meta name='theme-color' content='#ffffff' />
     </Head>
-  );
+  )
 }
 
 type Favicons = {
-  rel: string;
-  href: string;
-  sizes?: string;
-  type?: string;
-};
+  rel: string
+  href: string
+  sizes?: string
+  type?: string
+}
 
 // !STARTERCONF this is the default favicon, you can generate your own from https://www.favicon-generator.org/ then replace the whole /public/favicon folder
 const favicons: Array<Favicons> = [
@@ -174,4 +174,4 @@ const favicons: Array<Favicons> = [
     rel: 'manifest',
     href: '/favicon/manifest.json',
   },
-];
+]
