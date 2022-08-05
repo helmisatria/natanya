@@ -1,16 +1,41 @@
+import {
+  ColorScheme,
+  ColorSchemeProvider,
+  MantineProvider,
+} from '@mantine/core'
 import { AppProps } from 'next/app'
+import * as React from 'react'
 
 import '@/styles/globals.css'
-// !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
-import '@/styles/colors.css'
 
-/**
- * !STARTERCONF info
- * ? `Layout` component is called in every page using `np` snippets. If you have consistent layout across all page, you can add it here too
- */
+function MyApp(props: AppProps & { colorScheme: ColorScheme }) {
+  const { Component, pageProps } = props
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  const [colorScheme, setColorScheme] = React.useState<ColorScheme>(
+    props.colorScheme
+  )
+
+  const toggleColorScheme = (value?: ColorScheme) => {
+    const nextColorScheme = value || (colorScheme === 'dark' ? 'light' : 'dark')
+    setColorScheme(nextColorScheme)
+  }
+
+  return (
+    <>
+      <ColorSchemeProvider
+        colorScheme={colorScheme}
+        toggleColorScheme={toggleColorScheme}
+      >
+        <MantineProvider
+          theme={{ colorScheme }}
+          withGlobalStyles
+          withNormalizeCSS
+        >
+          <Component {...pageProps} />
+        </MantineProvider>
+      </ColorSchemeProvider>
+    </>
+  )
 }
 
 export default MyApp
