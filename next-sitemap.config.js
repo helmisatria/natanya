@@ -4,4 +4,4 @@ module.exports = {
   robotsTxtOptions: {
     policies: [{ userAgent: '*', allow: '/' }],
   },
-};
+}
