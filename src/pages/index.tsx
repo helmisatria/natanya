@@ -1,10 +1,13 @@
 import { Button, Input, Text, Title } from '@mantine/core'
+import { useRouter } from 'next/router'
 import * as React from 'react'
 
 import Layout from '@/components/layout/Layout'
 import Seo from '@/components/Seo'
 
 export default function HomePage() {
+  const router = useRouter()
+
   return (
     <Layout>
       {/* <Seo templateTitle='Home' /> */}
@@ -24,6 +27,7 @@ export default function HomePage() {
         <form
           onSubmit={(e) => {
             e.preventDefault()
+            router.push('/event/123')
           }}
           className='mt-12 flex w-full flex-col justify-center px-4 sm:flex-row'
         >
