@@ -7,8 +7,13 @@ import Seo from '@/components/Seo'
 
 export default function HomePage() {
   const router = useRouter()
+  const input = React.useRef<HTMLInputElement>(null)
 
   const [eventCode, setEventCode] = React.useState('')
+
+  React.useEffect(() => {
+    input.current?.focus()
+  }, [])
 
   return (
     <Layout>
@@ -31,6 +36,7 @@ export default function HomePage() {
           className='mt-12 flex w-full flex-col justify-center px-4 sm:flex-row'
         >
           <Input
+            ref={input}
             required
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEventCode(e.target.value)}
             icon={

@@ -1,38 +1,55 @@
 import { Radio, Title } from '@mantine/core'
+import axios, { AxiosError } from 'axios'
 import { onValue, ref } from 'firebase/database'
 import { GetServerSideProps } from 'next'
 import { useEffect, useState } from 'react'
 
+import { getUser } from '@/lib/auth/user'
 import { db } from '@/lib/firebase/firebase-client'
-import { IEvent } from '@/lib/types/event'
+import { IEvent, IUser } from '@/lib/types/types'
 
 import Layout from '@/components/layout/Layout'
+
+const redirectTo = (path: string) => {
+  return {
+    redirect: {
+      permanent: false,
+      destination: path,
+    },
+    props: {},
+  }
+}
 
 // next serverside props
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const host = context.req.headers.host
-  const event = await (await fetch(`http://${host}/api/event/` + context.query.id)).json()
+  const joinPath = `/event/${context.query.id}/join`
 
-  if (!event) {
+  try {
+    const { data: event } = await axios.get(`http://${host}/api/event/${context.query.id}`)
+
+    const user = getUser(context.req, context.res)
+
+    if (!user) return redirectTo(joinPath)
+    if (!event) return redirectTo('/')
+
     return {
-      redirect: {
-        permanent: false,
-        destination: '/',
-      },
-      props: {},
+      props: { event, user },
+    }
+  } catch (error) {
+    if ((error as AxiosError)?.response?.status === 401) {
+      return redirectTo(joinPath)
     }
   }
 
-  return {
-    props: event,
-  }
+  return redirectTo('/')
 }
 
-export default function HomePage(propsEvent: IEvent) {
+export default function HomePage({ event: propsEvent }: { event: IEvent; user: IUser }) {
   const [value, setValue] = useState('')
   const [event, setEvent] = useState(propsEvent)
 
-  const activeQuestion = event.questions[event.activeQuestionIndex ?? 0]
+  const activeQuestion = event.questions[event.activeQuestionKey ?? '0']
 
   useEffect(() => {
     const events = ref(db, 'events/' + event.id)
