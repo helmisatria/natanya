@@ -51,6 +51,7 @@ export default function HomePage() {
             autoFocus
           />
           <Button
+            type='submit'
             size='xl'
             color='#fff'
             variant='default'
