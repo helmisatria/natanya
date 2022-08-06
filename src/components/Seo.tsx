@@ -27,9 +27,7 @@ export default function Seo(props: SeoProps) {
     ...defaultMeta,
     ...props,
   }
-  meta['title'] = props.templateTitle
-    ? `${props.templateTitle} | ${meta.siteName}`
-    : meta.title
+  meta['title'] = props.templateTitle ? `${props.templateTitle} | ${meta.siteName}` : meta.title
 
   // Use siteName if there is templateTitle
   // but show full title if there is none
@@ -61,16 +59,8 @@ export default function Seo(props: SeoProps) {
       {meta.date && (
         <>
           <meta property='article:published_time' content={meta.date} />
-          <meta
-            name='publish_date'
-            property='og:publish_date'
-            content={meta.date}
-          />
-          <meta
-            name='author'
-            property='article:author'
-            content='Theodorus Clarence'
-          />
+          <meta name='publish_date' property='og:publish_date' content={meta.date} />
+          <meta name='author' property='article:author' content='Theodorus Clarence' />
         </>
       )}
 
@@ -79,10 +69,7 @@ export default function Seo(props: SeoProps) {
         <link key={linkProps.href} {...linkProps} />
       ))}
       <meta name='msapplication-TileColor' content='#ffffff' />
-      <meta
-        name='msapplication-TileImage'
-        content='/favicon/ms-icon-144x144.png'
-      />
+      <meta name='msapplication-TileImage' content='/favicon/ms-icon-144x144.png' />
       <meta name='theme-color' content='#ffffff' />
     </Head>
   )
