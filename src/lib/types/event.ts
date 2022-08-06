@@ -13,7 +13,7 @@ export interface IQuestion {
 }
 
 export interface IEvent {
-  activeQuestionId: string
+  activeQuestionIndex: number
   code: string
   description: string
   id: string

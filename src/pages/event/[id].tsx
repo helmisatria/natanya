@@ -1,7 +1,9 @@
 import { Radio, Title } from '@mantine/core'
+import { onValue, ref } from 'firebase/database'
 import { GetServerSideProps } from 'next'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
+import { db } from '@/lib/firebase/firebase-client'
 import { IEvent } from '@/lib/types/event'
 
 import Layout from '@/components/layout/Layout'
@@ -26,8 +28,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-export default function HomePage(event: IEvent) {
-  const [value, setValue] = useState('react')
+export default function HomePage(propsEvent: IEvent) {
+  const [value, setValue] = useState('')
+  const [event, setEvent] = useState(propsEvent)
+
+  const activeQuestion = event.questions[event.activeQuestionIndex ?? 0]
+
+  useEffect(() => {
+    const events = ref(db, 'events/' + event.id)
+    onValue(events, (snapshot) => {
+      const data = snapshot.val()
+
+      setEvent(data)
+    })
+  }, [event.id])
 
   return (
     <Layout>
@@ -35,16 +49,15 @@ export default function HomePage(event: IEvent) {
         <p className='pt-16 text-center text-lg font-semibold text-slate-600'>{event.name}</p>
 
         <Title className='mt-32 text-center font-primary text-5xl font-black text-cyan-800 md:mt-44 md:text-7xl'>
-          {event.questions[0].question}
+          {activeQuestion.question}
         </Title>
 
         <div className='mt-16 flex justify-center'>
           <form onSubmit={(e) => e.preventDefault()} className='flex flex-col items-center'>
             <Radio.Group size='xl' value={value} onChange={setValue} required>
-              <Radio value='react' label='React' />
-              <Radio value='svelte' label='Svelte' />
-              <Radio value='ng' label='Angular' />
-              <Radio value='vue' label='Vue' />
+              {activeQuestion.options.map((option, i) => (
+                <Radio key={i} value={option} label={option} />
+              ))}
             </Radio.Group>
 
             <button className='mt-16 rounded-lg border-4 border-cyan-600 bg-cyan-800 py-4 px-12 text-2xl font-bold text-white ring-offset-2 transition-all duration-200 hover:ring-4 active:bg-cyan-600'>

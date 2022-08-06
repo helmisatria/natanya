@@ -24,6 +24,7 @@
     "@mantine/hooks": "^5.0.2",
     "@mantine/next": "^5.0.2",
     "clsx": "^1.2.1",
+    "firebase": "^9.9.2",
     "firebase-admin": "^11.0.1",
     "invariant": "^2.2.4",
     "next": "^12.2.3",

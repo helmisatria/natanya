@@ -17,6 +17,6 @@ if (!admin.apps.length) {
   })
 }
 
-const db = admin.database()
+const adminDb = admin.database()
 
-export { db }
+export { adminDb }
