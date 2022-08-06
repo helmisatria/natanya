@@ -1,28 +1,45 @@
-import { Radio } from '@mantine/core'
+import { Radio, Title } from '@mantine/core'
+import { GetServerSideProps } from 'next'
 import { useState } from 'react'
+
+import { IEvent } from '@/lib/types/event'
 
 import Layout from '@/components/layout/Layout'
 
-export default function HomePage() {
-  // const router = useRouter()
+// next serverside props
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const host = context.req.headers.host
+  const event = await (await fetch(`http://${host}/api/event/` + context.query.id)).json()
+
+  if (!event) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+      props: {},
+    }
+  }
+
+  return {
+    props: event,
+  }
+}
+
+export default function HomePage(event: IEvent) {
   const [value, setValue] = useState('react')
 
   return (
     <Layout>
-      <div className='container mx-auto min-h-screen'>
-        <p className='pt-16 text-center text-lg font-semibold text-slate-600'>
-          SMA 88 Yogyakarta
-        </p>
+      <div className='container mx-auto min-h-screen max-w-7xl px-6 lg:px-0'>
+        <p className='pt-16 text-center text-lg font-semibold text-slate-600'>{event.name}</p>
 
-        <h1 className='mt-44 text-center text-7xl font-black text-cyan-800'>
-          Siapa ketua kelas terbaik?
-        </h1>
+        <Title className='mt-32 text-center font-primary text-5xl font-black text-cyan-800 md:mt-44 md:text-7xl'>
+          {event.questions[0].question}
+        </Title>
 
         <div className='mt-16 flex justify-center'>
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className='flex flex-col items-center'
-          >
+          <form onSubmit={(e) => e.preventDefault()} className='flex flex-col items-center'>
             <Radio.Group size='xl' value={value} onChange={setValue} required>
               <Radio value='react' label='React' />
               <Radio value='svelte' label='Svelte' />
