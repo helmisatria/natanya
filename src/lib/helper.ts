@@ -20,3 +20,13 @@ export function openGraph({
     ogTemplateTitle ? `&templateTitle=${ogTemplateTitle}` : ''
   }`
 }
+
+export const redirectTo = (path: string) => {
+  return {
+    redirect: {
+      permanent: false,
+      destination: path,
+    },
+    props: {},
+  }
+}

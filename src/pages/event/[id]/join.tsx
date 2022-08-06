@@ -4,21 +4,21 @@ import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 
+import { getUser } from '@/lib/auth/user'
+import { redirectTo } from '@/lib/helper'
 import { IEvent } from '@/lib/types/types'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const host = context.req.headers.host
   const event = await (await fetch(`http://${host}/api/event/` + context.query.id)).json()
 
-  if (!event) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/',
-      },
-      props: {},
-    }
+  const user = getUser(context.req, context.res)
+
+  if (user) {
+    return redirectTo('/event/' + context.query.id)
   }
+
+  if (!event) return redirectTo('/')
 
   return {
     props: event,
