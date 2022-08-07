@@ -1,10 +1,16 @@
 import Cookies from 'cookies'
-import { IncomingMessage, ServerResponse } from 'http'
 import jwt from 'jsonwebtoken'
 import { pick } from 'lodash'
+import { GetServerSidePropsContext, PreviewData } from 'next'
+import { NextParsedUrlQuery } from 'next/dist/server/request-meta'
 
-export const getUser = (req: IncomingMessage, res: ServerResponse) => {
+import { UserJWTType } from '@/pages/api/event/[id]/join'
+
+type ServerSidePropsContext = GetServerSidePropsContext<NextParsedUrlQuery, PreviewData>
+
+export const getUser = ({ req, res, query }: ServerSidePropsContext) => {
   const cookies = new Cookies(req, res)
+  const eventId = query.id as string
 
   const authorization = cookies.get('Authorization')
 
@@ -13,10 +19,12 @@ export const getUser = (req: IncomingMessage, res: ServerResponse) => {
   }
 
   return jwt.verify(authorization, process.env.JWT_SECRET as string, (err, decoded) => {
-    if (err) {
+    const user = decoded as UserJWTType
+
+    if (err || !user) {
       return null
     }
 
-    return pick(decoded, ['name'])
+    return pick(user[eventId], ['name'])
   })
 }
