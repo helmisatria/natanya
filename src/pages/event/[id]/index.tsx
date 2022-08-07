@@ -52,6 +52,7 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
   const activeQuestion = event.questions[event.activeQuestionKey ?? '0']
   const participants = Object.values(event.userNames || {})
   const questionAnswers = Object.values(activeQuestion.answers || {})
+  const answeredPercentage = ((questionAnswers.length / participants.length) * 100).toFixed(2)
 
   useEffect(() => {
     const events = ref(db, 'events/' + event.id)
@@ -113,7 +114,7 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
           <div className='flex justify-center space-x-2 py-8 text-lg'>
             <p>People joined: {participants.length}</p>
             <p>
-              People answered: {questionAnswers.length} ({(questionAnswers.length / participants.length) * 100}%)
+              People answered: {questionAnswers.length} ({answeredPercentage}%)
             </p>
           </div>
         </footer>

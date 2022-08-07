@@ -15,11 +15,17 @@ export default async function answerQuestion(req: NextApiRequest, res: NextApiRe
     return res.status(401).json({ message: 'Unauthorized' })
   }
 
-  const requestBodySchema = z.array(z.string())
+  const requestBodySchema = z.array(z.string().min(1))
   const answers = req.body.answers as z.infer<typeof requestBodySchema>
 
   const { success: isValidBody } = requestBodySchema.safeParse(answers)
+
   if (!isValidBody) {
+    const isSomeAnswerEmpty = answers.some((answer) => answer === '')
+    if (isSomeAnswerEmpty) {
+      return res.status(400).json({ message: 'Please choose the answer' })
+    }
+
     return res.status(400).json({ message: 'Invalid body' })
   }
 
