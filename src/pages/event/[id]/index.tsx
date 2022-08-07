@@ -66,7 +66,7 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
         <p className='pt-16 text-center text-lg font-semibold text-slate-600'>{event.name}</p>
 
         <div className='mx-auto max-w-3xl xl:max-w-none'>
-          <Title className='mt-32 text-center font-primary text-3xl font-black text-cyan-800 sm:text-5xl md:mt-44 xl:text-7xl'>
+          <Title className='mt-32 text-center font-primary text-3xl font-black text-cyan-800 sm:text-5xl md:mt-52 xl:text-7xl'>
             {activeQuestion.question}
           </Title>
         </div>
@@ -79,7 +79,7 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
               ))}
             </Radio.Group>
 
-            <button className='mt-16 rounded-lg border-4 border-cyan-600 bg-cyan-800 py-4 px-12 text-2xl font-bold text-white ring-offset-2 transition-all duration-200 hover:ring-4 active:bg-cyan-600'>
+            <button className='mt-16 rounded-lg border-4 border-cyan-600 bg-cyan-800 py-4 px-12 text-2xl font-bold text-white ring-offset-2 transition-all duration-200 hover:ring-4 active:bg-cyan-700'>
               Submit
             </button>
           </form>
