@@ -10,7 +10,7 @@ import { UserJWTType } from '@/pages/api/event/[id]/join'
 
 type ServerSidePropsContext = GetServerSidePropsContext<NextParsedUrlQuery, PreviewData>
 
-export const isAuthenticated = async (req: NextApiRequest, res: NextApiResponse): Promise<boolean> => {
+export const isAuthenticated = async (req: NextApiRequest, res: NextApiResponse): Promise<string | boolean> => {
   const cookies = new Cookies(req, res)
   const authorization = cookies.get('Authorization')
   const eventId = req.query.id as string
@@ -26,7 +26,7 @@ export const isAuthenticated = async (req: NextApiRequest, res: NextApiResponse)
   const userNames = Object.values((await snapUserNames).val() || {})
   const isUserExists = userNames?.includes(userName)
 
-  return isUserExists
+  return isUserExists ? userName : false
 }
 
 export const getUser = ({ req, res, query }: ServerSidePropsContext) => {

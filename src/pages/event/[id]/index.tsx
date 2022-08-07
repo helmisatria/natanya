@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 
 import { getUser } from '@/lib/auth/user'
 import { db } from '@/lib/firebase/firebase-client'
+import { notify } from '@/lib/helper'
 import { IEvent, IUser } from '@/lib/types/types'
 
 import Layout from '@/components/layout/Layout'
@@ -45,10 +46,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 export default function HomePage({ event: propsEvent }: { event: IEvent; user: IUser }) {
-  const [value, setValue] = useState('')
+  const [answer, setAnswer] = useState('')
   const [event, setEvent] = useState(propsEvent)
 
   const activeQuestion = event.questions[event.activeQuestionKey ?? '0']
+  const participants = Object.values(event.userNames || {})
+  const questionAnswers = Object.values(activeQuestion.answers || {})
 
   useEffect(() => {
     const events = ref(db, 'events/' + event.id)
@@ -58,6 +61,26 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
       setEvent(data)
     })
   }, [event.id])
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const address = `/api/event/${event.id}/answer`
+
+    try {
+      const result = await axios.post(address, {
+        answers: [answer],
+      })
+
+      if (result.status === 200) {
+        notify.success('Answer submitted')
+      }
+    } catch (err) {
+      const error = err as AxiosError<{ message: string }>
+      if ((error as AxiosError)?.response?.status === 400) {
+        return notify.error(error?.response?.data?.message ?? 'Unknown error')
+      }
+    }
+  }
 
   return (
     <Layout>
@@ -72,8 +95,8 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
           </div>
 
           <div className='mt-16 flex justify-center'>
-            <form onSubmit={(e) => e.preventDefault()} className='flex flex-col items-center'>
-              <Radio.Group size='xl' value={value} onChange={setValue} required>
+            <form onSubmit={handleSubmit} className='flex flex-col items-center'>
+              <Radio.Group size='xl' value={answer} onChange={setAnswer} required>
                 {activeQuestion.options.map((option, i) => (
                   <Radio key={i} value={option} label={option} />
                 ))}
@@ -87,8 +110,11 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
         </main>
 
         <footer>
-          <div className='flex justify-center py-8 text-lg'>
-            <p>People joined: {Object.values(event.userNames || {}).length}</p>
+          <div className='flex justify-center space-x-2 py-8 text-lg'>
+            <p>People joined: {participants.length}</p>
+            <p>
+              People answered: {questionAnswers.length} ({(questionAnswers.length / participants.length) * 100}%)
+            </p>
           </div>
         </footer>
       </div>

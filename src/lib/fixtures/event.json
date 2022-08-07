@@ -1,17 +1,15 @@
 {
-  "activeQuestionIndex": "question-1",
+  "activeQuestionKey": "-such a generated random id here",
   "code": "123785",
   "description": "WTF 009 description",
   "id": "wtf-009",
   "name": "WTF 009",
   "ownerUserId": "user-001",
   "questions": {
-    "0": {
+    "-such a generated random id here": {
       "answers": {
-        "0": {
-          "answeredBy": "Johnny",
-          "answers": ["Option 1"]
-        }
+        "userNameHere": ["Answer 1", "Answer 2"],
+        "anotherUserNameHere": ["Answer 1"]
       },
       "correctAnswers": ["Option 1"],
       "id": "question-1",

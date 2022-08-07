@@ -1,6 +1,5 @@
 export interface IAnswer {
-  answeredBy: string
-  answers: string[]
+  [userName: string]: string[]
 }
 
 export interface IQuestion {
