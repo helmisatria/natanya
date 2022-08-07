@@ -13,11 +13,16 @@ export interface IQuestion {
 }
 
 export interface IEvent {
-  activeQuestionIndex: number
+  activeQuestionKey: string
   code: string
   description: string
   id: string
   name: string
   ownerUserId: string
-  questions: IQuestion[]
+  questions: { [key: string]: IQuestion }
+  userNames: string[]
+}
+
+export interface IUser {
+  name: string
 }

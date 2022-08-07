@@ -112,6 +112,10 @@
   .p {
     @apply font-primary text-sm md:text-base;
   }
+
+  * {
+    @apply font-primary !important;
+  }
   /* #endregion  /**======== Typography =========== */
 
   .layout {

@@ -1,3 +1,5 @@
+import toast from 'react-hot-toast'
+
 type OpenGraphType = {
   siteName: string
   description: string
@@ -20,3 +22,15 @@ export function openGraph({
     ogTemplateTitle ? `&templateTitle=${ogTemplateTitle}` : ''
   }`
 }
+
+export const redirectTo = (path: string) => {
+  return {
+    redirect: {
+      permanent: false,
+      destination: path,
+    },
+    props: {},
+  }
+}
+
+export const notify = toast
