@@ -4,9 +4,29 @@ import { pick } from 'lodash'
 import { GetServerSidePropsContext, PreviewData } from 'next'
 import { NextParsedUrlQuery } from 'next/dist/server/request-meta'
 
+import { adminDb } from '@/lib/firebase/firebase-admin'
+
 import { UserJWTType } from '@/pages/api/event/[id]/join'
 
 type ServerSidePropsContext = GetServerSidePropsContext<NextParsedUrlQuery, PreviewData>
+
+export const isAuthenticated = async ({ req, res }: ServerSidePropsContext, eventId: string): Promise<boolean> => {
+  const cookies = new Cookies(req, res)
+  const authorization = cookies.get('Authorization')
+
+  if (!authorization) return false
+
+  const decoded = jwt.verify(authorization, process.env.JWT_SECRET as string) as UserJWTType
+  const userName = decoded[eventId]?.name
+
+  if (!userName) return false
+
+  const snapUserNames = adminDb.ref(`events/${eventId}/userNames`).once('value')
+  const userNames = Object.values((await snapUserNames).val() || {})
+  const isUserExists = userNames?.includes(userName)
+
+  return isUserExists
+}
 
 export const getUser = ({ req, res, query }: ServerSidePropsContext) => {
   const cookies = new Cookies(req, res)
