@@ -65,9 +65,11 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
       <div className='container mx-auto min-h-screen max-w-7xl px-6 lg:px-0'>
         <p className='pt-16 text-center text-lg font-semibold text-slate-600'>{event.name}</p>
 
-        <Title className='mt-32 text-center font-primary text-5xl font-black text-cyan-800 md:mt-44 md:text-7xl'>
-          {activeQuestion.question}
-        </Title>
+        <div className='mx-auto max-w-3xl xl:max-w-none'>
+          <Title className='mt-32 text-center font-primary text-3xl font-black text-cyan-800 sm:text-5xl md:mt-44 xl:text-7xl'>
+            {activeQuestion.question}
+          </Title>
+        </div>
 
         <div className='mt-16 flex justify-center'>
           <form onSubmit={(e) => e.preventDefault()} className='flex flex-col items-center'>
