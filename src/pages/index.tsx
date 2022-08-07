@@ -35,7 +35,11 @@ export default function HomePage() {
       {/* <Seo templateTitle='Home' /> */}
       <Seo />
       <div className='container mx-auto -mt-12 flex min-h-screen flex-col items-center justify-center'>
-        <Title align='center' className='px-4 font-primary text-7xl tracking-tight md:text-7xl lg:text-8xl'>
+        <Title
+          data-sal='slide-up'
+          align='center'
+          className='px-4 font-primary text-7xl tracking-tight text-cyan-900 md:text-7xl lg:text-8xl'
+        >
           Joining{' '}
           <Text inherit variant='gradient' component='span'>
             polling
@@ -43,7 +47,12 @@ export default function HomePage() {
           event?
         </Title>
 
-        <form onSubmit={handleSubmit} className='mt-12 flex w-full flex-col justify-center px-4 sm:flex-row'>
+        <form
+          data-sal='slide-up'
+          data-sal-delay='300'
+          onSubmit={handleSubmit}
+          className='mt-12 flex w-full flex-col justify-center px-4 sm:flex-row'
+        >
           <Input
             ref={input}
             required
