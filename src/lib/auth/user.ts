@@ -10,9 +10,10 @@ import { UserJWTType } from '@/pages/api/event/[id]/join'
 
 type ServerSidePropsContext = GetServerSidePropsContext<NextParsedUrlQuery, PreviewData>
 
-export const isAuthenticated = async ({ req, res }: ServerSidePropsContext, eventId: string): Promise<boolean> => {
+export const isAuthenticated = async ({ req, res, query }: ServerSidePropsContext): Promise<boolean> => {
   const cookies = new Cookies(req, res)
   const authorization = cookies.get('Authorization')
+  const eventId = query.id as string
 
   if (!authorization) return false
 
