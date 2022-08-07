@@ -3,6 +3,7 @@ import invariant from 'invariant'
 import jwt from 'jsonwebtoken'
 import { NextApiRequest, NextApiResponse } from 'next'
 
+import { isAuthenticated } from '@/lib/auth/user'
 import { adminDb } from '@/lib/firebase/firebase-admin'
 
 export interface UserJWTType {
@@ -13,6 +14,11 @@ export interface UserJWTType {
 
 export default async function joinEvent(req: NextApiRequest, res: NextApiResponse) {
   invariant(process.env.JWT_SECRET, 'JWT_SECRET is not defined')
+
+  const isLoggedIn = await isAuthenticated(req, res)
+  if (isLoggedIn) {
+    return res.status(400).json({ message: 'Already logged in' })
+  }
 
   const cookies = new Cookies(req, res)
   const eventId = req.query.id as string
