@@ -1,7 +1,7 @@
 import Cookies from 'cookies'
 import jwt from 'jsonwebtoken'
 import { pick } from 'lodash'
-import { GetServerSidePropsContext, PreviewData } from 'next'
+import { GetServerSidePropsContext, NextApiRequest, NextApiResponse, PreviewData } from 'next'
 import { NextParsedUrlQuery } from 'next/dist/server/request-meta'
 
 import { adminDb } from '@/lib/firebase/firebase-admin'
@@ -10,10 +10,10 @@ import { UserJWTType } from '@/pages/api/event/[id]/join'
 
 type ServerSidePropsContext = GetServerSidePropsContext<NextParsedUrlQuery, PreviewData>
 
-export const isAuthenticated = async ({ req, res, query }: ServerSidePropsContext): Promise<boolean> => {
+export const isAuthenticated = async (req: NextApiRequest, res: NextApiResponse): Promise<boolean> => {
   const cookies = new Cookies(req, res)
   const authorization = cookies.get('Authorization')
-  const eventId = query.id as string
+  const eventId = req.query.id as string
 
   if (!authorization) return false
 
