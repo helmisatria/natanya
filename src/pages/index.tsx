@@ -37,8 +37,7 @@ export default function HomePage() {
       <div className='container mx-auto -mt-12 flex min-h-screen flex-col items-center justify-center'>
         <Title
           data-sal='slide-up'
-          align='center'
-          className='px-4 font-primary text-7xl tracking-tight text-cyan-900 md:text-7xl lg:text-8xl'
+          className='px-4 font-primary text-7xl tracking-tight text-cyan-900 sm:text-center md:text-7xl lg:text-8xl'
         >
           Joining{' '}
           <Text inherit variant='gradient' component='span'>

@@ -132,7 +132,7 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
         </main>
 
         <footer data-sal='fade' data-sal-delay='800' data-sal-duration='1000'>
-          <div className='flex justify-center space-x-2 py-8 text-lg'>
+          <div className='flex flex-col justify-center py-8 text-lg text-slate-500 sm:flex-row sm:space-x-2'>
             <p>People joined: {participants.length}</p>
             <p>
               People answered: {questionAnswers.length} ({answeredPercentage}%)

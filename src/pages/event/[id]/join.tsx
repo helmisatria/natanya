@@ -61,32 +61,36 @@ export default function JoinPage(propsEvent: IEvent) {
   return (
     <Layout>
       <div className='flex min-h-screen min-w-full flex-col items-center justify-center px-6 lg:max-w-7xl lg:px-0'>
-        <div className='flex min-h-screen w-full flex-col items-center justify-center lg:-mt-24'>
+        <div className='-mt-32 flex min-h-screen w-full flex-col items-center justify-center lg:-mt-24'>
           <Title
             data-sal='slide-up'
             data-sal-delay='0'
-            className='text-center text-5xl font-black text-cyan-800 lg:text-8xl'
+            className='text-6xl font-black text-cyan-800 sm:text-center lg:text-8xl'
           >
             Joining{' '}
             <Text inherit variant='gradient' component='span'>
               {propsEvent.name}
             </Text>
           </Title>
-          <Text data-sal='slide-up' data-sal-delay='300' className='mt-20 mb-4 text-2xl font-semibold'>
+          <Text
+            data-sal='slide-up'
+            data-sal-delay='300'
+            className='mt-20 mb-4 w-full text-left text-xl font-semibold sm:text-center sm:text-2xl'
+          >
             Please enter your name to join
           </Text>
           <form
             data-sal='slide-up'
             data-sal-delay='300'
             onSubmit={onSubmit}
-            className='flex flex-col items-center sm:flex-row'
+            className='flex w-full flex-col items-center justify-center sm:flex-row'
           >
             <Input
               ref={input}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value)}
               placeholder='Enter your name'
               autoFocus
-              className='w-96'
+              className='w-full sm:w-96'
               size='xl'
               style={{ textAlign: 'center' }}
             />
