@@ -60,21 +60,46 @@ export default function JoinPage(propsEvent: IEvent) {
 
   return (
     <Layout>
-      <div className='container mx-auto flex min-h-screen max-w-7xl px-6 lg:px-0'>
-        <div className='-mt-24 flex min-h-screen flex-1 flex-col items-center justify-center'>
-          <Title className='text-6xl'>Joining {propsEvent.name}</Title>
-          <Text className='mt-24 mb-4 text-xl'>Please enter your name to join</Text>
-          <form onSubmit={onSubmit} className='flex items-center'>
+      <div className='flex min-h-screen min-w-full flex-col items-center justify-center px-6 lg:max-w-7xl lg:px-0'>
+        <div className='-mt-32 flex min-h-screen w-full flex-col items-center justify-center lg:-mt-24'>
+          <Title
+            data-sal='slide-up'
+            data-sal-delay='0'
+            className='text-6xl font-black text-cyan-800 sm:text-center lg:text-8xl'
+          >
+            Joining{' '}
+            <Text inherit variant='gradient' component='span'>
+              {propsEvent.name}
+            </Text>
+          </Title>
+          <Text
+            data-sal='slide-up'
+            data-sal-delay='300'
+            className='mt-20 mb-4 w-full text-left text-xl font-semibold sm:text-center sm:text-2xl'
+          >
+            Please enter your name to join
+          </Text>
+          <form
+            data-sal='slide-up'
+            data-sal-delay='300'
+            onSubmit={onSubmit}
+            className='flex w-full flex-col items-center justify-center sm:flex-row'
+          >
             <Input
               ref={input}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value)}
               placeholder='Enter your name'
               autoFocus
-              className='w-96'
+              className='w-full sm:w-96'
               size='xl'
               style={{ textAlign: 'center' }}
             />
-            <Button type='submit' variant='outline' className='ml-4' size='lg'>
+            <Button
+              type='submit'
+              variant='outline'
+              className='mt-2 min-h-full w-full sm:ml-4 sm:mt-0 sm:w-auto'
+              size='lg'
+            >
               Submit
             </Button>
           </form>
