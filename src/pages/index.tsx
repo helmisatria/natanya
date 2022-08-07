@@ -1,6 +1,9 @@
 import { Button, Input, Text, Title } from '@mantine/core'
+import axios from 'axios'
 import { useRouter } from 'next/router'
 import * as React from 'react'
+
+import { notify } from '@/lib/helper'
 
 import Layout from '@/components/layout/Layout'
 import Seo from '@/components/Seo'
@@ -15,6 +18,18 @@ export default function HomePage() {
     input.current?.focus()
   }, [])
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const { data: event } = await axios.get(`/api/event/${eventCode}`)
+
+    if (!event) {
+      notify.error('Event not found')
+    }
+
+    router.push(`/event/${eventCode}`)
+  }
+
   return (
     <Layout>
       {/* <Seo templateTitle='Home' /> */}
@@ -28,13 +43,7 @@ export default function HomePage() {
           event?
         </Title>
 
-        <form
-          onSubmit={(e) => {
-            e.preventDefault()
-            router.push(`/event/${eventCode}`)
-          }}
-          className='mt-12 flex w-full flex-col justify-center px-4 sm:flex-row'
-        >
+        <form onSubmit={handleSubmit} className='mt-12 flex w-full flex-col justify-center px-4 sm:flex-row'>
           <Input
             ref={input}
             required

@@ -1,3 +1,5 @@
+import toast from 'react-hot-toast'
+
 type OpenGraphType = {
   siteName: string
   description: string
@@ -30,3 +32,5 @@ export const redirectTo = (path: string) => {
     props: {},
   }
 }
+
+export const notify = toast

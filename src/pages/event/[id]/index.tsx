@@ -20,7 +20,6 @@ const redirectTo = (path: string) => {
   }
 }
 
-// next serverside props
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const host = context.req.headers.host
   const joinPath = `/event/${context.query.id}/join`
@@ -30,8 +29,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const user = getUser(context)
 
-    if (!user) return redirectTo(joinPath)
     if (!event) return redirectTo('/')
+    if (!user) return redirectTo(joinPath)
 
     return {
       props: { event, user },
