@@ -20,6 +20,7 @@ export interface IEvent {
   name: string
   ownerUserId: string
   questions: { [key: string]: IQuestion }
+  userNames: string[]
 }
 
 export interface IUser {

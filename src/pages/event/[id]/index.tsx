@@ -62,28 +62,36 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
 
   return (
     <Layout>
-      <div className='container mx-auto min-h-screen max-w-7xl px-6 lg:px-0'>
+      <div className='container mx-auto flex min-h-screen max-w-7xl flex-col px-6 lg:px-0'>
         <p className='pt-16 text-center text-lg font-semibold text-slate-600'>{event.name}</p>
 
-        <div className='mx-auto max-w-3xl xl:max-w-none'>
-          <Title className='mt-32 text-center font-primary text-3xl font-black text-cyan-800 sm:text-5xl md:mt-52 xl:text-7xl'>
-            {activeQuestion.question}
-          </Title>
-        </div>
+        <main className='flex-1'>
+          <div className='mx-auto max-w-3xl xl:max-w-none'>
+            <Title className='mt-32 text-center font-primary text-3xl font-black text-cyan-800 sm:text-5xl md:mt-52 xl:text-7xl'>
+              {activeQuestion.question}
+            </Title>
+          </div>
 
-        <div className='mt-16 flex justify-center'>
-          <form onSubmit={(e) => e.preventDefault()} className='flex flex-col items-center'>
-            <Radio.Group size='xl' value={value} onChange={setValue} required>
-              {activeQuestion.options.map((option, i) => (
-                <Radio key={i} value={option} label={option} />
-              ))}
-            </Radio.Group>
+          <div className='mt-16 flex justify-center'>
+            <form onSubmit={(e) => e.preventDefault()} className='flex flex-col items-center'>
+              <Radio.Group size='xl' value={value} onChange={setValue} required>
+                {activeQuestion.options.map((option, i) => (
+                  <Radio key={i} value={option} label={option} />
+                ))}
+              </Radio.Group>
 
-            <button className='mt-16 rounded-lg border-4 border-cyan-600 bg-cyan-800 py-4 px-12 text-2xl font-bold text-white ring-offset-2 transition-all duration-200 hover:ring-4 active:bg-cyan-700'>
-              Submit
-            </button>
-          </form>
-        </div>
+              <button className='mt-16 rounded-lg border-4 border-cyan-600 bg-cyan-800 py-4 px-12 text-2xl font-bold text-white ring-offset-2 transition-all duration-200 hover:ring-4 active:bg-cyan-700'>
+                Submit
+              </button>
+            </form>
+          </div>
+        </main>
+
+        <footer>
+          <div className='flex justify-center py-8 text-lg'>
+            <p>People joined: {Object.values(event.userNames || {}).length}</p>
+          </div>
+        </footer>
       </div>
     </Layout>
   )
