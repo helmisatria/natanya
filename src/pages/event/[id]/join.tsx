@@ -10,6 +10,7 @@ import { redirectTo } from '@/lib/helper'
 import { IEvent } from '@/lib/types/types'
 
 import Layout from '@/components/layout/Layout'
+import Seo from '@/components/Seo'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const host = context.req.headers.host
@@ -60,6 +61,8 @@ export default function JoinPage(propsEvent: IEvent) {
 
   return (
     <Layout>
+      <Seo />
+
       <div className='flex min-h-screen min-w-full flex-col items-center justify-center px-6 lg:max-w-7xl lg:px-0'>
         <div className='-mt-32 flex min-h-screen w-full flex-col items-center justify-center lg:-mt-24'>
           <Title

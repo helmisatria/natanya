@@ -32,7 +32,6 @@ export default function HomePage() {
 
   return (
     <Layout>
-      {/* <Seo templateTitle='Home' /> */}
       <Seo />
       <div className='container mx-auto -mt-12 flex min-h-screen flex-col items-center justify-center'>
         <Title
