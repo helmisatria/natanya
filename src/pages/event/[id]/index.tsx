@@ -1,4 +1,4 @@
-import { Radio, Title } from '@mantine/core'
+import { Title } from '@mantine/core'
 import axios, { AxiosError } from 'axios'
 import { onValue, ref } from 'firebase/database'
 import { GetServerSideProps } from 'next'
@@ -10,6 +10,7 @@ import { notify } from '@/lib/helper'
 import { IEvent, IUser } from '@/lib/types/types'
 
 import Layout from '@/components/layout/Layout'
+import RadioBlock from '@/components/RadioBlock'
 
 const redirectTo = (path: string) => {
   return {
@@ -90,42 +91,40 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
           data-sal='fade'
           data-sal-delay='800'
           data-sal-duration='1000'
-          className='pt-16 text-center text-lg font-semibold text-slate-600'
+          className='pt-6 text-center text-sm font-semibold text-slate-600 md:text-lg lg:pt-12 2xl:pt-16'
         >
           {event.name}
         </p>
 
-        <main className='flex-1'>
-          <div className='mx-auto max-w-3xl xl:max-w-none'>
+        <main className='2xl:-mt-42 flex flex-1 flex-col justify-center lg:-mt-24 xl:-mt-44'>
+          <div className='mx-auto max-w-3xl xl:max-w-4xl 2xl:max-w-7xl'>
             <Title
               data-sal='slide-up'
-              className='mt-32 text-center font-primary text-3xl font-black text-cyan-900 sm:text-5xl md:mt-52 xl:text-7xl'
+              className='mt-12 text-center font-primary text-3xl font-black text-cyan-900 sm:text-5xl lg:mt-32 xl:mt-52 xl:text-6xl 2xl:text-7xl'
             >
               {activeQuestion.question}
             </Title>
           </div>
 
           <div className='mt-16 flex justify-center'>
-            <form onSubmit={handleSubmit} className='flex flex-col items-center'>
-              <Radio.Group
-                data-sal='slide-up'
-                data-sal-delay='300'
-                size='xl'
-                value={answer}
-                onChange={setAnswer}
-                required
-              >
+            <form
+              data-sal='slide-up'
+              data-sal-delay='300'
+              onSubmit={handleSubmit}
+              className='flex w-full max-w-6xl flex-col items-center justify-center md:max-w-5xl lg:px-12 2xl:max-w-7xl'
+            >
+              <div className='grid w-full gap-y-2 gap-x-4 sm:grid-cols-2 md:gap-y-4'>
                 {activeQuestion.options.map((option, i) => (
-                  <Radio key={i} value={option} label={option} />
+                  <RadioBlock key={i} id={String(i)} value={option} onChange={(e) => setAnswer(e.target.value)} />
                 ))}
-              </Radio.Group>
+              </div>
 
               <button
                 data-sal='slide-up'
                 data-sal-delay='600'
                 className='mt-16 rounded-lg border-4 border-cyan-600 bg-cyan-800 py-4 px-12 text-2xl font-bold text-white ring-offset-2 transition-all duration-200 hover:ring-4 active:bg-cyan-700'
               >
-                Submit
+                Submit Answer
               </button>
             </form>
           </div>
