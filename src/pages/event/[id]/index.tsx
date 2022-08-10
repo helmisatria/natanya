@@ -11,6 +11,7 @@ import { IEvent, IUser } from '@/lib/types/types'
 
 import Layout from '@/components/layout/Layout'
 import RadioBlock from '@/components/RadioBlock'
+import Seo from '@/components/Seo'
 
 const redirectTo = (path: string) => {
   return {
@@ -86,12 +87,14 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
 
   return (
     <Layout key={event.activeQuestionKey}>
+      <Seo />
+
       <div className='container mx-auto flex min-h-screen max-w-7xl flex-col px-6 lg:px-0'>
         <p
           data-sal='fade'
           data-sal-delay='800'
           data-sal-duration='1000'
-          className='pt-6 text-center text-sm font-semibold text-slate-600 md:text-lg lg:pt-12 2xl:pt-16'
+          className='relative z-10 pt-6 text-center text-sm font-semibold text-slate-600 md:text-lg lg:pt-12 2xl:pt-16'
         >
           {event.name}
         </p>
@@ -133,6 +136,7 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
         <footer data-sal='fade' data-sal-delay='800' data-sal-duration='1000'>
           <div className='flex flex-col justify-center py-8 text-lg text-slate-500 sm:flex-row sm:space-x-2'>
             <p>People joined: {participants.length}</p>
+            <span>•</span>
             <p>
               People answered: {questionAnswers.length} ({answeredPercentage}%)
             </p>
