@@ -8,7 +8,7 @@ export interface IQuestion {
   options: string[]
   order: string
   question: string
-  answers: IAnswer[]
+  answers: IAnswer
   state: 'PRESTART' | 'STARTED' | 'ENDED'
 }
 

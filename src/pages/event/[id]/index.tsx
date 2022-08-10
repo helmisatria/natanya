@@ -50,7 +50,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return redirectTo('/')
 }
 
-export default function HomePage({ event: propsEvent }: { event: IEvent; user: IUser }) {
+export default function HomePage({ event: propsEvent, user }: { event: IEvent; user: IUser }) {
   const [answer, setAnswer] = useState('')
   const [event, setEvent] = useState(propsEvent)
 
@@ -86,6 +86,10 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
         return notify.error(error?.response?.data?.message ?? 'Unknown error')
       }
     }
+  }
+
+  const isAnsweredOption = (option: string) => {
+    return activeQuestion.answers?.[user.name]?.[0] === option
   }
 
   return (
@@ -155,7 +159,13 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
                   >
                     <div className='grid w-full gap-y-2 gap-x-4 sm:grid-cols-2 md:gap-y-4'>
                       {activeQuestion.options.map((option, i) => (
-                        <RadioBlock key={i} id={String(i)} value={option} onChange={(e) => setAnswer(e.target.value)} />
+                        <RadioBlock
+                          key={i}
+                          id={String(i)}
+                          isAnsweredOption={isAnsweredOption(option)}
+                          value={option}
+                          onChange={(e) => setAnswer(e.target.value)}
+                        />
                       ))}
                     </div>
 
