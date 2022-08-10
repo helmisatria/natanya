@@ -102,7 +102,7 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
 
         {activeQuestion.state === 'ENDED' ? (
           <main className='mx-auto -mt-12 flex w-full max-w-screen-md flex-1 flex-col justify-center'>
-            <PollResult />
+            <PollResult activeQuestion={activeQuestion} />
           </main>
         ) : (
           <main className='2xl:-mt-42 flex flex-1 flex-col justify-center lg:-mt-24 xl:-mt-44'>
