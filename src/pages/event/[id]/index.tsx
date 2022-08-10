@@ -10,6 +10,7 @@ import { notify } from '@/lib/helper'
 import { IEvent, IUser } from '@/lib/types/types'
 
 import Layout from '@/components/layout/Layout'
+import PollResult from '@/components/PollResult'
 import RadioBlock from '@/components/RadioBlock'
 import Seo from '@/components/Seo'
 
@@ -99,44 +100,52 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
           {event.name}
         </p>
 
-        <main className='2xl:-mt-42 flex flex-1 flex-col justify-center lg:-mt-24 xl:-mt-44'>
-          <div className='mx-auto max-w-3xl xl:max-w-4xl 2xl:max-w-7xl'>
-            <Title
-              data-sal='slide-up'
-              className='mt-12 text-center font-primary text-3xl font-black text-cyan-900 sm:text-5xl lg:mt-32 xl:mt-52 xl:text-6xl 2xl:text-7xl'
-            >
-              {activeQuestion.question}
-            </Title>
-          </div>
-
-          <div className='mt-16 flex justify-center'>
-            <form
-              data-sal='slide-up'
-              data-sal-delay='300'
-              onSubmit={handleSubmit}
-              className='flex w-full max-w-6xl flex-col items-center justify-center md:max-w-5xl lg:px-12 2xl:max-w-7xl'
-            >
-              <div className='grid w-full gap-y-2 gap-x-4 sm:grid-cols-2 md:gap-y-4'>
-                {activeQuestion.options.map((option, i) => (
-                  <RadioBlock key={i} id={String(i)} value={option} onChange={(e) => setAnswer(e.target.value)} />
-                ))}
+        {activeQuestion.state === 'ENDED' ? (
+          <main className='mx-auto -mt-12 flex w-full max-w-screen-md flex-1 flex-col justify-center'>
+            <PollResult />
+          </main>
+        ) : (
+          <main className='2xl:-mt-42 flex flex-1 flex-col justify-center lg:-mt-24 xl:-mt-44'>
+            <div>
+              <div className='mx-auto max-w-3xl xl:max-w-4xl 2xl:max-w-7xl'>
+                <Title
+                  data-sal='slide-up'
+                  className='mt-12 text-center font-primary text-3xl text-gray-800 sm:text-5xl lg:mt-32 xl:mt-52 xl:text-6xl 2xl:text-7xl'
+                >
+                  {activeQuestion.question}
+                </Title>
               </div>
 
-              <button
-                data-sal='slide-up'
-                data-sal-delay='600'
-                className='mt-16 rounded-lg border-4 border-cyan-600 bg-cyan-800 py-4 px-12 text-2xl font-bold text-white ring-offset-2 transition-all duration-200 hover:ring-4 active:bg-cyan-700'
-              >
-                Submit Answer
-              </button>
-            </form>
-          </div>
-        </main>
+              <div className='mt-16 flex justify-center'>
+                <form
+                  data-sal='slide-up'
+                  data-sal-delay='300'
+                  onSubmit={handleSubmit}
+                  className='flex w-full max-w-6xl flex-col items-center justify-center md:max-w-5xl lg:px-12 2xl:max-w-7xl'
+                >
+                  <div className='grid w-full gap-y-2 gap-x-4 sm:grid-cols-2 md:gap-y-4'>
+                    {activeQuestion.options.map((option, i) => (
+                      <RadioBlock key={i} id={String(i)} value={option} onChange={(e) => setAnswer(e.target.value)} />
+                    ))}
+                  </div>
+
+                  <button
+                    data-sal='slide-up'
+                    data-sal-delay='600'
+                    className='mt-16 rounded-lg border-4 border-cyan-600 bg-cyan-800 py-4 px-12 text-2xl font-bold text-white ring-offset-2 transition-all duration-200 hover:ring-4 active:bg-cyan-700'
+                  >
+                    Submit Answer
+                  </button>
+                </form>
+              </div>
+            </div>
+          </main>
+        )}
 
         <footer data-sal='fade' data-sal-delay='800' data-sal-duration='1000'>
           <div className='flex flex-col justify-center py-8 text-lg text-slate-500 sm:flex-row sm:space-x-2'>
             <p>People joined: {participants.length}</p>
-            <span>•</span>
+            <span className='hidden sm:block'>•</span>
             <p>
               People answered: {questionAnswers.length} ({answeredPercentage}%)
             </p>

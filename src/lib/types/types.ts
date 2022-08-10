@@ -9,6 +9,7 @@ export interface IQuestion {
   order: string
   question: string
   answers: IAnswer[]
+  state: 'PRESTART' | 'STARTED' | 'ENDED'
 }
 
 export interface IEvent {
@@ -20,6 +21,7 @@ export interface IEvent {
   ownerUserId: string
   questions: { [key: string]: IQuestion }
   userNames: string[]
+  state: 'PRESTART' | 'STARTED' | 'ENDED'
 }
 
 export interface IUser {

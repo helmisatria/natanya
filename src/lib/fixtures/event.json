@@ -15,9 +15,10 @@
       "id": "question-1",
       "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
       "order": 0,
-      "question": "What is the name of the main character in the game?"
+      "question": "What is the name of the main character in the game?",
+      "state": "PRESTART" // PRESTART, STARTED, FINISHED
     }
   },
-  "state": "QUESTION",
+  "state": "PRESTART", // PRESTART, STARTED, FINISHED
   "userNames": ["Johnny"]
 }
