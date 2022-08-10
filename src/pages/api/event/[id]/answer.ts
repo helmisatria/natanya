@@ -42,7 +42,7 @@ export default async function answerQuestion(req: NextApiRequest, res: NextApiRe
   const isQuestionStarted = activeQuestion.state === 'STARTED'
 
   if (!isEventStarted || !isQuestionStarted) {
-    return res.status(400).json({ message: 'Event not started' })
+    return res.status(400).json({ message: 'Event/Question not started' })
   }
 
   const snapAnswers = adminDb.ref(`events/${eventId}/questions/${event.activeQuestionKey}/answers/${userName}`)
