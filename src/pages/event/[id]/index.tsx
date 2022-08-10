@@ -9,10 +9,12 @@ import { db } from '@/lib/firebase/firebase-client'
 import { notify } from '@/lib/helper'
 import { IEvent, IUser } from '@/lib/types/types'
 
+import EventEndedContent from '@/components/EventEnded'
 import Layout from '@/components/layout/Layout'
 import PollResult from '@/components/PollResult'
 import RadioBlock from '@/components/RadioBlock'
 import Seo from '@/components/Seo'
+import WaitingEventStarted from '@/components/WaitingEventStarted'
 
 const redirectTo = (path: string) => {
   return {
@@ -100,7 +102,15 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
           {event.name}
         </p>
 
-        {activeQuestion.state === 'ENDED' ? (
+        {event.state === 'ENDED' ? (
+          <main className='mx-auto -mt-32 flex w-full max-w-screen-md flex-1 flex-col justify-center 2xl:max-w-screen-lg'>
+            <EventEndedContent />
+          </main>
+        ) : event.state === 'PRESTART' ? (
+          <main className='mx-auto -mt-32 flex w-full max-w-screen-md flex-1 flex-col justify-center 2xl:max-w-screen-lg'>
+            <WaitingEventStarted />
+          </main>
+        ) : activeQuestion.state === 'ENDED' ? (
           <main className='mx-auto -mt-12 flex w-full max-w-screen-md flex-1 flex-col justify-center'>
             <PollResult activeQuestion={activeQuestion} />
           </main>
@@ -142,15 +152,17 @@ export default function HomePage({ event: propsEvent }: { event: IEvent; user: I
           </main>
         )}
 
-        <footer data-sal='fade' data-sal-delay='800' data-sal-duration='1000'>
-          <div className='flex flex-col justify-center py-8 text-lg text-slate-500 sm:flex-row sm:space-x-2'>
-            <p>People joined: {participants.length}</p>
-            <span className='hidden sm:block'>•</span>
-            <p>
-              People answered: {questionAnswers.length} ({answeredPercentage}%)
-            </p>
-          </div>
-        </footer>
+        {event.state === 'STARTED' && (
+          <footer data-sal='fade' data-sal-delay='800' data-sal-duration='1000'>
+            <div className='flex flex-col justify-center py-8 text-lg text-slate-500 sm:flex-row sm:space-x-2'>
+              <p>People joined: {participants.length}</p>
+              <span className='hidden sm:block'>•</span>
+              <p>
+                People answered: {questionAnswers.length} ({answeredPercentage}%)
+              </p>
+            </div>
+          </footer>
+        )}
       </div>
     </Layout>
   )
