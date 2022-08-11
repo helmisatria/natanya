@@ -1,10 +1,12 @@
-import { Title } from '@mantine/core'
+import { Loader, Title } from '@mantine/core'
+import { useMutation } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
 import { onValue, ref } from 'firebase/database'
 import { GetServerSideProps } from 'next'
 import { useEffect, useState } from 'react'
 
 import { getUser } from '@/lib/auth/user'
+import clsxm from '@/lib/clsxm'
 import { db } from '@/lib/firebase/firebase-client'
 import { notify } from '@/lib/helper'
 import { IEvent, IUser } from '@/lib/types/types'
@@ -68,24 +70,24 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
     })
   }, [event.id])
 
+  const mutation = useMutation((answer: string) => {
+    const address = `/api/event/${event.id}/answer`
+    return axios.post(address, { answers: [answer] })
+  })
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const address = `/api/event/${event.id}/answer`
-
-    try {
-      const result = await axios.post(address, {
-        answers: [answer],
-      })
-
-      if (result.status === 200) {
+    mutation.mutate(answer, {
+      onSuccess: () => {
         notify.success('Answer submitted')
-      }
-    } catch (err) {
-      const error = err as AxiosError<{ message: string }>
-      if ((error as AxiosError)?.response?.status === 400) {
-        return notify.error(error?.response?.data?.message ?? 'Unknown error')
-      }
-    }
+      },
+      onError: (err) => {
+        const error = err as AxiosError<{ message: string }>
+        if ((error as AxiosError)?.response?.status === 400) {
+          notify.error(error?.response?.data?.message ?? 'Unknown error')
+        }
+      },
+    })
   }
 
   const isAnsweredOption = (option: string) => {
@@ -172,9 +174,13 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
                     <button
                       data-sal='slide-up'
                       data-sal-delay='600'
-                      className='mt-16 rounded-lg border-4 border-cyan-600 bg-cyan-800 py-4 px-12 text-2xl font-bold text-white ring-offset-2 transition-all duration-200 hover:ring-4 active:bg-cyan-700'
+                      className={clsxm(
+                        mutation.isLoading && 'cursor-wait border-none bg-opacity-50 !ring-0',
+                        'mt-16 flex items-center space-x-4 rounded-lg border-4 border-cyan-600 bg-cyan-800 py-4 px-12 text-2xl font-bold text-white ring-offset-2 transition-all duration-200 hover:ring-4 active:bg-cyan-700'
+                      )}
                     >
-                      Submit Answer
+                      {mutation.isLoading && <Loader color='white' />}
+                      <span>Submit Answer</span>
                     </button>
                   </form>
                 </div>
