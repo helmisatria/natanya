@@ -1,4 +1,5 @@
 import { Button, Input, Text, Title } from '@mantine/core'
+import { useMutation } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
@@ -38,25 +39,26 @@ export default function JoinPage(propsEvent: IEvent) {
     input.current?.focus()
   }, [])
 
+  const mutation = useMutation((userName: string) => {
+    const address = `/api/event/${propsEvent.id}/join`
+    return axios.post(address, { name: userName })
+  })
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const address = `/api/event/${propsEvent.id}/join`
 
-    try {
-      const result = await axios.post(address, {
-        name: userName,
-      })
-
-      if (result.status === 200) {
+    mutation.mutate(userName, {
+      onSuccess: () => {
         toast.remove()
-        return router.replace(`/event/${propsEvent.id}`)
-      }
-    } catch (err) {
-      const error = err as AxiosError<{ message: string }>
-      if ((error as AxiosError)?.response?.status === 400) {
-        return toast.error(error?.response?.data?.message ?? 'Unknown error')
-      }
-    }
+        router.replace(`/event/${propsEvent.id}`)
+      },
+      onError: (err) => {
+        const error = err as AxiosError<{ message: string }>
+        if (error?.response?.status === 400) {
+          toast.error(error?.response?.data?.message ?? 'Unknown error')
+        }
+      },
+    })
   }
 
   return (
@@ -98,12 +100,13 @@ export default function JoinPage(propsEvent: IEvent) {
               style={{ textAlign: 'center' }}
             />
             <Button
+              loading={mutation.isLoading}
               type='submit'
               variant='outline'
               className='mt-2 min-h-full w-full sm:ml-4 sm:mt-0 sm:w-auto'
               size='lg'
             >
-              Submit
+              Join
             </Button>
           </form>
         </div>

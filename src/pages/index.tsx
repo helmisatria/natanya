@@ -1,4 +1,5 @@
 import { Button, Input, Text, Title } from '@mantine/core'
+import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import * as React from 'react'
@@ -12,6 +13,10 @@ export default function HomePage() {
   const router = useRouter()
   const input = React.useRef<HTMLInputElement>(null)
 
+  const mutation = useMutation((code: string) => {
+    return axios.get(`/api/event/${code}`)
+  })
+
   const [eventCode, setEventCode] = React.useState('')
 
   React.useEffect(() => {
@@ -21,13 +26,15 @@ export default function HomePage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const { data: event } = await axios.get(`/api/event/${eventCode}`)
+    mutation.mutate(eventCode, {
+      onSuccess: ({ data }) => {
+        if (!data) {
+          notify.error('Event not found')
+        }
 
-    if (!event) {
-      notify.error('Event not found')
-    }
-
-    router.push(`/event/${eventCode}`)
+        router.push(`/event/${data.id}`)
+      },
+    })
   }
 
   return (
@@ -68,8 +75,15 @@ export default function HomePage() {
             size='xl'
             autoFocus
           />
-          <Button type='submit' size='xl' color='#fff' variant='default' className='mt-2 bg-primary-50 sm:mt-0 sm:ml-4'>
-            Submit
+          <Button
+            loading={mutation.isLoading}
+            type='submit'
+            size='xl'
+            color='#fff'
+            variant='default'
+            className='mt-2 bg-primary-50 sm:mt-0 sm:ml-4'
+          >
+            Join Event
           </Button>
         </form>
       </div>
