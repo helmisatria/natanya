@@ -1,4 +1,5 @@
 import { Title } from '@mantine/core'
+import sortBy from 'lodash/sortBy'
 
 import { IQuestion } from '@/lib/types/types'
 
@@ -20,6 +21,8 @@ export default function PollResult({ activeQuestion }: PollResultProps) {
     }
   }, {} as { [key: string]: number })
 
+  const sortedAnswers = sortBy(Object.entries(answers), ([, total]) => total).reverse()
+
   return (
     <div>
       <section className='sticky top-0 border-b bg-white py-7'>
@@ -30,7 +33,7 @@ export default function PollResult({ activeQuestion }: PollResultProps) {
       </section>
 
       <section className='my-12 space-y-6'>
-        {Object.entries(answers).map(([answer, totalAnswer], index) => (
+        {sortedAnswers.map(([answer, totalAnswer], index) => (
           <div
             data-sal='fade'
             data-sal-delay={150 * (index + 1)}
