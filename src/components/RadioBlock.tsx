@@ -14,7 +14,11 @@ export default function RadioBlock({ id, isAnsweredOption, ...props }: RadioBloc
         className='group relative flex w-full cursor-pointer items-center rounded-lg border-4 border-cyan-800 border-opacity-30 bg-cyan-50 bg-opacity-60 py-4 px-4 shadow-sm ring-offset-4 transition-all duration-200 hover:bg-opacity-100 hover:shadow-md active:ring-2 active:ring-cyan-700 peer-checked:border-cyan-800 peer-checked:bg-cyan-100 peer-checked:bg-opacity-100 peer-checked:shadow-md peer-focus:ring-2 peer-focus:ring-cyan-500 peer-active:ring-cyan-700 xl:py-5 xl:px-7 2xl:py-6 2xl:px-8'
       >
         {isAnsweredOption && (
-          <span className='absolute top-0 right-0 m-[2px] block rounded-md bg-pink-500 px-2 py-1 text-xs font-semibold text-white shadow-md'>
+          <span
+            data-sal='slide-up'
+            data-sal-delay='0'
+            className='absolute top-0 right-0 m-[2px] block rounded-md bg-pink-500 px-2 py-1 text-xs font-semibold text-white shadow-md'
+          >
             Your Answer
           </span>
         )}
