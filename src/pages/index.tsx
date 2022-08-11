@@ -83,7 +83,7 @@ export default function HomePage() {
             variant='default'
             className='mt-2 bg-primary-50 sm:mt-0 sm:ml-4'
           >
-            Submit
+            Join Event
           </Button>
         </form>
       </div>

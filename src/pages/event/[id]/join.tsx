@@ -106,7 +106,7 @@ export default function JoinPage(propsEvent: IEvent) {
               className='mt-2 min-h-full w-full sm:ml-4 sm:mt-0 sm:w-auto'
               size='lg'
             >
-              Submit
+              Join
             </Button>
           </form>
         </div>
