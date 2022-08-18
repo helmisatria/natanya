@@ -18,21 +18,40 @@ const findUserInDb = async (userName: string, eventId: string): Promise<string |
   return isUserExists ? userName : false
 }
 
-export const isAuthenticated = async (req: NextApiRequest, res: NextApiResponse): Promise<string | boolean> => {
+export type isAuthenticatedType = {
+  userName: string
+  user: UserJWTType
+} | null
+
+export const decodeCurrentUser = (req: NextApiRequest, res: NextApiResponse): UserJWTType | null => {
+  const cookies = new Cookies(req, res)
+  const authorization = cookies.get('Authorization')
+
+  if (!authorization) return null
+
+  const decoded = jwt.verify(authorization, process.env.JWT_SECRET as string) as UserJWTType
+  return decoded
+}
+
+export const isAuthenticated = async (req: NextApiRequest, res: NextApiResponse): Promise<isAuthenticatedType> => {
   const cookies = new Cookies(req, res)
   const authorization = cookies.get('Authorization')
   const eventId = req.query.id as string
 
-  if (!authorization) return false
+  if (!authorization) return null
 
   const decoded = jwt.verify(authorization, process.env.JWT_SECRET as string) as UserJWTType
   const userName = decoded[eventId]?.name
 
-  if (!userName) return false
+  if (!userName) return null
 
-  const user = await findUserInDb(userName, eventId)
+  const foundUser = await findUserInDb(userName, eventId)
+  if (!foundUser) return null
 
-  return user
+  return {
+    userName,
+    user: decoded,
+  }
 }
 
 export const getUser = ({ req, res, query }: ServerSidePropsContext) => {
@@ -41,14 +60,12 @@ export const getUser = ({ req, res, query }: ServerSidePropsContext) => {
 
   const authorization = cookies.get('Authorization')
 
-  if (!authorization) {
-    return null
-  }
+  if (!authorization) return null
 
   return jwt.verify(authorization, process.env.JWT_SECRET as string, async (err, decoded) => {
     const user = decoded as UserJWTType
 
-    const foundUser = findUserInDb(user?.[eventId]?.name ?? '', eventId)
+    const foundUser = await findUserInDb(user?.[eventId]?.name ?? '', eventId)
 
     if (err || !user || !foundUser) {
       return null

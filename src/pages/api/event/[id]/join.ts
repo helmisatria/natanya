@@ -3,7 +3,7 @@ import invariant from 'invariant'
 import jwt from 'jsonwebtoken'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { isAuthenticated } from '@/lib/auth/user'
+import { decodeCurrentUser, isAuthenticated } from '@/lib/auth/user'
 import { adminDb } from '@/lib/firebase/firebase-admin'
 
 export interface UserJWTType {
@@ -47,8 +47,10 @@ export default async function joinEvent(req: NextApiRequest, res: NextApiRespons
   }
 
   adminDb.ref(`events/${eventId}/userNames`).push(userName)
+  const authenticatedUser = await decodeCurrentUser(req, res)
 
   const user = {
+    ...(authenticatedUser || {}),
     [eventId]: {
       name: req.body.name,
     },

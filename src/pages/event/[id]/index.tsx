@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
 import { onValue, ref } from 'firebase/database'
 import { GetServerSideProps } from 'next'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 import { getUser } from '@/lib/auth/user'
@@ -55,11 +56,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export default function HomePage({ event: propsEvent, user }: { event: IEvent; user: IUser }) {
   const [answer, setAnswer] = useState('')
   const [event, setEvent] = useState(propsEvent)
+  const router = useRouter()
 
   const activeQuestion = event.questions[event.activeQuestionKey ?? '0']
   const participants = Object.values(event.userNames || {})
   const questionAnswers = Object.values(activeQuestion.answers || {})
-  const answeredPercentage = ((questionAnswers.length / participants.length) * 100).toFixed(2)
+  const answeredPercentage = ((questionAnswers.length / participants.length || 0) * 100).toFixed(2)
 
   useEffect(() => {
     const events = ref(db, 'events/' + event.id)
@@ -70,10 +72,20 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
     })
   }, [event.id])
 
-  const mutation = useMutation((answer: string) => {
-    const address = `/api/event/${event.id}/answer`
-    return axios.post(address, { answers: [answer] })
-  })
+  const mutation = useMutation(
+    (answer: string) => {
+      const address = `/api/event/${event.id}/answer`
+      return axios.post(address, { answers: [answer] })
+    },
+    {
+      onError: (err) => {
+        const error = err as AxiosError<{ message: string }>
+        if (error?.response?.status === 401) {
+          router.replace(`/event/${event.id}/join`)
+        }
+      },
+    }
+  )
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
