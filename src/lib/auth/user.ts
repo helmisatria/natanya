@@ -10,6 +10,14 @@ import { UserJWTType } from '@/pages/api/event/[id]/join'
 
 type ServerSidePropsContext = GetServerSidePropsContext<NextParsedUrlQuery, PreviewData>
 
+const findUserInDb = async (userName: string, eventId: string): Promise<string | boolean> => {
+  const snapUserNames = adminDb.ref(`events/${eventId}/userNames`).once('value')
+  const userNames = Object.values((await snapUserNames).val() || {})
+  const isUserExists = userNames?.includes(userName)
+
+  return isUserExists ? userName : false
+}
+
 export const isAuthenticated = async (req: NextApiRequest, res: NextApiResponse): Promise<string | boolean> => {
   const cookies = new Cookies(req, res)
   const authorization = cookies.get('Authorization')
@@ -22,11 +30,9 @@ export const isAuthenticated = async (req: NextApiRequest, res: NextApiResponse)
 
   if (!userName) return false
 
-  const snapUserNames = adminDb.ref(`events/${eventId}/userNames`).once('value')
-  const userNames = Object.values((await snapUserNames).val() || {})
-  const isUserExists = userNames?.includes(userName)
+  const user = await findUserInDb(userName, eventId)
 
-  return isUserExists ? userName : false
+  return user
 }
 
 export const getUser = ({ req, res, query }: ServerSidePropsContext) => {
@@ -39,10 +45,12 @@ export const getUser = ({ req, res, query }: ServerSidePropsContext) => {
     return null
   }
 
-  return jwt.verify(authorization, process.env.JWT_SECRET as string, (err, decoded) => {
+  return jwt.verify(authorization, process.env.JWT_SECRET as string, async (err, decoded) => {
     const user = decoded as UserJWTType
 
-    if (err || !user) {
+    const foundUser = findUserInDb(user?.[eventId]?.name ?? '', eventId)
+
+    if (err || !user || !foundUser) {
       return null
     }
 

@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const host = context.req.headers.host
   const event = await (await fetch(`http://${host}/api/event/` + context.query.id)).json()
 
-  const user = getUser(context)
+  const user = await getUser(context)
 
   if (user) {
     return redirectTo('/event/' + context.query.id)
