@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const { data: event } = await axios.get(`http://${host}/api/event/${context.query.id}`)
 
-    const user = getUser(context)
+    const user = await getUser(context)
 
     if (!event) return redirectTo('/')
     if (!user) return redirectTo(joinPath)
