@@ -1,12 +1,12 @@
 {
-  "activeQuestionKey": "-such a generated random id here",
+  "activeQuestionKey": "0",
   "code": "123785",
   "description": "WTF 009 description",
   "id": "wtf-009",
   "name": "WTF 009",
   "ownerUserId": "user-001",
   "questions": {
-    "-such a generated random id here": {
+    "0": {
       "answers": {
         "userNameHere": ["Answer 1", "Answer 2"],
         "anotherUserNameHere": ["Answer 1"]

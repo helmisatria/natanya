@@ -10,8 +10,8 @@ export default async function answerQuestion(req: NextApiRequest, res: NextApiRe
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const userName = await isAuthenticated(req, res)
-  if (!userName) {
+  const authenticatedUser = await isAuthenticated(req, res)
+  if (!authenticatedUser) {
     return res.status(401).json({ message: 'Unauthorized' })
   }
 
@@ -45,7 +45,9 @@ export default async function answerQuestion(req: NextApiRequest, res: NextApiRe
     return res.status(400).json({ message: 'Event/Question not started' })
   }
 
-  const snapAnswers = adminDb.ref(`events/${eventId}/questions/${event.activeQuestionKey}/answers/${userName}`)
+  const snapAnswers = adminDb.ref(
+    `events/${eventId}/questions/${event.activeQuestionKey}/answers/${authenticatedUser.userName}`
+  )
   snapAnswers.set(answers)
 
   return res.status(200).json({ message: 'OK' })

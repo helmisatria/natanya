@@ -1,0 +1,21 @@
+{
+  "activeQuestionKey": "0",
+  "code": "123785",
+  "description": "WTF 009 description",
+  "id": "wtf-009",
+  "name": "WTF 009",
+  "ownerUserId": "user-001",
+  "questions": {
+    "0": {
+      "answers": {},
+      "correctAnswers": ["Option 1"],
+      "id": "question-1",
+      "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
+      "order": 0,
+      "question": "What is the name of the main character in the game?",
+      "state": "PRESTART"
+    }
+  },
+  "state": "PRESTART",
+  "userNames": {}
+}
