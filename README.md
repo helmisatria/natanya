@@ -2,6 +2,10 @@
   <h1>🥳 Natanya</h1>
 </div>
 
+## Background
+
+[Check on this youtube video](https://www.youtube.com/watch?v=zarNocG065A)
+
 ## Technologies
 
 - ⚡️ Next.js 12
@@ -40,11 +44,3 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. You can start editing the page by modifying `src/pages/index.tsx`.
-
-### Change defaults
-
-There are some things you need to change including title, urls, favicons, etc.
-
-Find all comments with !STARTERCONF, then follow the guide.
-
-Don't forget to change the package name in package.json
