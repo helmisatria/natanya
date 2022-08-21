@@ -4,7 +4,7 @@
 
 ## Background
 
-[Check on this youtube video](https://www.youtube.com/watch?v=zarNocG065A)
+[Check on this youtube video](https://www.youtube.com/watch?v=2O284dUXYsI)
 
 ## Technologies
 
