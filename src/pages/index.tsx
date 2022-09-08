@@ -56,14 +56,14 @@ export default function HomePage() {
           alt=''
         ></img>
 
-        <div className='relative z-20 mx-auto flex min-h-screen max-w-6xl flex-col overflow-y-hidden px-6 py-20 sm:px-12 lg:max-w-7xl lg:px-28 xl:px-12'>
+        <div className='relative z-20 mx-auto flex min-h-screen max-w-6xl flex-col overflow-y-hidden px-6 py-8 sm:py-20 sm:px-12 lg:max-w-7xl lg:px-28 xl:px-12'>
           <nav>
             <div className='w-36 opacity-70 sm:w-[164px]'>
               <NatanyaIcon />
             </div>
           </nav>
 
-          <section className='flex flex-1 flex-col justify-center lg:-mt-24'>
+          <section className='mt-20 flex flex-1 flex-col justify-center lg:-mt-24'>
             <Title data-sal='slide-up' className='text-6xl font-bold tracking-tight text-sky-900 sm:text-7xl'>
               Joining Polling Event?
             </Title>
@@ -93,7 +93,7 @@ export default function HomePage() {
                   required
                   name='event-code'
                   id='event-code'
-                  className='block h-full w-full rounded-lg border-2 border-sky-600 py-6 px-16 text-xl focus:border-sky-700 focus:ring-sky-700 sm:text-2xl'
+                  className='block h-full w-full rounded-lg border-2 border-sky-600 py-6 px-16 text-lg focus:border-sky-700 focus:ring-sky-700 sm:text-2xl'
                   placeholder='Enter event code here'
                   aria-describedby='event-code'
                 />
