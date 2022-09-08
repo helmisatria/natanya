@@ -1,4 +1,6 @@
-import { Button, Input, Text, Title } from '@mantine/core'
+/* eslint-disable @next/next/no-img-element */
+import { ArrowRightIcon } from '@heroicons/react/24/solid'
+import { Loader, Title } from '@mantine/core'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import { useRouter } from 'next/router'
@@ -6,6 +8,7 @@ import * as React from 'react'
 
 import { notify } from '@/lib/helper'
 
+import { NatanyaIcon } from '@/components/icons/Natanya'
 import Layout from '@/components/layout/Layout'
 import Seo from '@/components/Seo'
 
@@ -40,53 +43,81 @@ export default function HomePage() {
   return (
     <Layout>
       <Seo />
-      <div className='container mx-auto -mt-12 flex min-h-screen flex-col items-center justify-center'>
-        <Title
-          data-sal='slide-up'
-          className='px-4 font-primary text-7xl tracking-tight text-cyan-900 sm:text-center md:text-7xl lg:text-8xl'
-        >
-          Joining{' '}
-          <Text inherit variant='gradient' component='span'>
-            polling
-          </Text>{' '}
-          event?
-        </Title>
+      <main className='relative overflow-y-hidden'>
+        <img
+          className='absolute inset-x-0 -bottom-[30%] hidden h-[700px] min-h-0 w-[100%] min-w-[110%] object-cover object-top opacity-80 sm:block lg:-bottom-[20%] xl:h-[720px] 2xl:-bottom-0'
+          src='/images/mesh.png'
+          alt=''
+        ></img>
 
-        <form
-          data-sal='slide-up'
-          data-sal-delay='300'
-          onSubmit={handleSubmit}
-          className='mt-12 flex w-full flex-col justify-center px-4 sm:flex-row'
-        >
-          <Input
-            ref={input}
-            required
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEventCode(e.target.value)}
-            icon={
-              <svg xmlns='http://www.w3.org/2000/svg' className='h-5 w-5' viewBox='0 0 20 20' fill='currentColor'>
-                <path
-                  fillRule='evenodd'
-                  d='M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H17a1 1 0 110 2h-2.97l-1 4H15a1 1 0 110 2h-2.47l-.56 2.242a1 1 0 11-1.94-.485L10.47 14H7.53l-.56 2.242a1 1 0 11-1.94-.485L5.47 14H3a1 1 0 110-2h2.97l1-4H5a1 1 0 110-2h2.47l.56-2.243a1 1 0 011.213-.727zM9.03 8l-1 4h2.938l1-4H9.031z'
-                  clipRule='evenodd'
+        <img
+          className='absolute inset-0 -right-[10%] -top-[8%] block h-screen w-[100%] object-cover object-left opacity-80 sm:hidden'
+          src='/images/mobile-mesh.png'
+          alt=''
+        ></img>
+
+        <div className='relative z-20 mx-auto flex min-h-screen max-w-6xl flex-col overflow-y-hidden px-6 py-8 sm:py-20 sm:px-12 lg:max-w-7xl lg:px-28 xl:px-12'>
+          <nav>
+            <div className='w-36 opacity-70 sm:w-[164px]'>
+              <NatanyaIcon />
+            </div>
+          </nav>
+
+          <section className='mt-20 flex flex-1 flex-col justify-center sm:-mt-12'>
+            <Title data-sal='slide-up' className='text-6xl font-bold tracking-tight text-sky-900 sm:text-7xl'>
+              Joining Polling Event?
+            </Title>
+
+            <form
+              data-sal='slide-up'
+              data-sal-delay='300'
+              onSubmit={handleSubmit}
+              className='mt-8 flex w-full flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4'
+            >
+              <div className='relative rounded-lg shadow-md'>
+                <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-6'>
+                  <svg width='18' height='22' viewBox='0 0 18 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                    <path
+                      d='M2.25 7.25H17.25M0.75 14.75H15.75M13.95 1.25L10.05 20.75M7.95 1.25L4.05 20.75'
+                      stroke='#6B7280'
+                      strokeWidth='1.5'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                    />
+                  </svg>
+                </div>
+                <input
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEventCode(e.target.value)}
+                  ref={input}
+                  type='text'
+                  required
+                  name='event-code'
+                  id='event-code'
+                  className='block h-full w-full rounded-lg border-2 border-sky-600 py-6 px-16 text-lg focus:border-sky-700 focus:ring-sky-700 sm:text-2xl'
+                  placeholder='Enter event code here'
+                  aria-describedby='event-code'
                 />
-              </svg>
-            }
-            placeholder='Enter event code here'
-            size='xl'
-            autoFocus
-          />
-          <Button
-            loading={mutation.isLoading}
-            type='submit'
-            size='xl'
-            color='#fff'
-            variant='default'
-            className='mt-2 bg-primary-50 sm:mt-0 sm:ml-4'
-          >
-            Join Event
-          </Button>
-        </form>
-      </div>
+              </div>
+              <button
+                disabled={mutation.isLoading}
+                className='flex justify-center rounded-lg border-2 border-sky-600 p-6 text-center shadow-md transition-all duration-150 hover:border-sky-700 hover:bg-sky-50 focus-visible:border-sky-700 disabled:cursor-not-allowed disabled:border-slate-300 disabled:bg-slate-200'
+              >
+                {mutation.isLoading ? (
+                  <div className='flex items-center space-x-3 sm:space-x-0'>
+                    <span className='block text-lg font-medium text-slate-600 sm:hidden'>Checking Event</span>
+                    <Loader size={30} color='gray' />
+                  </div>
+                ) : (
+                  <div className='flex items-center space-x-3 sm:space-x-0'>
+                    <span className='block text-lg font-medium text-sky-900 sm:hidden'>Join Event</span>
+                    <ArrowRightIcon className='h-[30px] w-[30px] text-sky-900' />
+                  </div>
+                )}
+              </button>
+            </form>
+          </section>
+        </div>
+      </main>
     </Layout>
   )
 }
