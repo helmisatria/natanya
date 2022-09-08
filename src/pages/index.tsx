@@ -63,7 +63,7 @@ export default function HomePage() {
             </div>
           </nav>
 
-          <section className='mt-20 flex flex-1 flex-col justify-center lg:-mt-24'>
+          <section className='mt-20 flex flex-1 flex-col justify-center sm:-mt-12'>
             <Title data-sal='slide-up' className='text-6xl font-bold tracking-tight text-sky-900 sm:text-7xl'>
               Joining Polling Event?
             </Title>
