@@ -2,8 +2,8 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 const defaultMeta = {
-  title: 'Natanya - Create polling event easily',
-  siteName: 'Natanya - Create polling event easily',
+  title: 'Natanya - Create poll event easily',
+  siteName: 'Natanya - Create poll event easily',
   description:
     'Natanya is a simple and easy to use tool to create a polling event. It is a free and open source project.',
   url: 'https://natanya.vercel.app',
@@ -13,7 +13,7 @@ const defaultMeta = {
    * No need to be filled, will be populated with openGraph function
    * If you wish to use a normal image, just specify the path below
    */
-  image: 'https://natanya.vercel.app/images/large-og.png',
+  image: 'https://natanya.vercel.app/images/meta-og.png',
 }
 
 type SeoProps = {
