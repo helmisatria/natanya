@@ -1,4 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import { Loader, Title } from '@mantine/core'
+import { useElementSize } from '@mantine/hooks'
 import { useMutation } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
 import { onValue, ref } from 'firebase/database'
@@ -106,42 +108,66 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
     return activeQuestion.answers?.[user.name]?.[0] === option
   }
 
+  const { ref: trackSizeRef, height: formHeight, width: formWidth } = useElementSize()
+
   return (
     <Layout key={event.activeQuestionKey}>
       <Seo />
 
-      <div className='container mx-auto flex min-h-screen max-w-7xl flex-col px-6 lg:px-0'>
-        <p
+      <div className='fixed inset-0 -bottom-[50px] z-[1] opacity-40'>
+        <img
           data-sal='fade'
-          data-sal-delay='800'
-          data-sal-duration='1000'
-          className='relative z-10 pt-6 text-center text-sm font-semibold text-slate-600 md:text-lg lg:pt-12 2xl:pt-16'
-        >
-          {event.name}
-        </p>
+          data-sal-delay='200'
+          data-sal-duration='900'
+          className='absolute inset-x-0 -bottom-[30%] hidden h-[700px] min-h-0 w-[100%] min-w-[110%] object-cover object-top !opacity-80 sm:block lg:-bottom-[20%] xl:h-[720px] 2xl:-bottom-0'
+          src='/images/mesh.png'
+          alt=''
+        ></img>
 
+        <img
+          className='absolute inset-0 -right-[10%] -top-[8%] block h-screen w-[100%] object-cover object-left !opacity-80 sm:hidden'
+          src='/images/mobile-mesh.png'
+          alt=''
+        ></img>
+      </div>
+
+      <nav className='mb-8 flex items-center justify-center sm:mb-[80px]'>
+        <div data-sal='fade' data-sal-delay='800' data-sal-duration='1000' className='mt-6 rounded-lg bg-sky-50'>
+          <p className='relative z-10 py-1 px-4 text-center text-sm font-semibold text-sky-500 md:text-lg'>
+            {event.name}
+          </p>
+        </div>
+      </nav>
+
+      <section className='flex flex-col'>
         {event.state === 'ENDED' ? (
-          <main className='mx-auto -mt-32 flex w-full max-w-screen-md flex-1 flex-col justify-center 2xl:max-w-screen-lg'>
+          <div className='mx-auto -mt-32 flex w-full max-w-screen-md flex-1 flex-col justify-center 2xl:max-w-screen-lg'>
             <EventEndedContent />
-          </main>
+          </div>
         ) : event.state === 'PRESTART' ? (
-          <main className='mx-auto -mt-32 flex w-full max-w-screen-md flex-1 flex-col justify-center 2xl:max-w-screen-lg'>
+          <div className='mx-auto -mt-32 flex w-full max-w-screen-md flex-1 flex-col justify-center 2xl:max-w-screen-lg'>
             <WaitingEventStarted />
-          </main>
+          </div>
         ) : activeQuestion.state === 'ENDED' ? (
-          <main className='mx-auto -mt-12 flex w-full max-w-screen-md flex-1 flex-col justify-center'>
+          <div className='mx-auto -mt-12 flex w-full max-w-screen-md flex-1 flex-col justify-center'>
             <PollResult activeQuestion={activeQuestion} />
-          </main>
+          </div>
         ) : (
-          <main className='2xl:-mt-42 flex flex-1 flex-col justify-center lg:-mt-24 xl:-mt-44'>
+          <div className='flex flex-col justify-center'>
             <div>
-              <div className='mx-auto max-w-3xl xl:max-w-4xl 2xl:max-w-7xl'>
-                <Title
-                  data-sal='slide-up'
-                  className='mt-12 text-center font-primary text-3xl text-gray-800 sm:text-5xl lg:mt-32 xl:mt-52 xl:text-6xl 2xl:text-7xl'
-                >
+              <div
+                className='sticky top-0 z-10 mx-auto max-w-7xl px-5 pt-4 sm:px-8'
+                style={{
+                  background:
+                    'linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.588542) 70.44%, rgba(255, 255, 255, 0) 100%);',
+                }}
+              >
+                <Title data-sal='slide-up' className='text-3xl text-gray-800 sm:text-5xl lg:max-w-[55%]'>
                   {activeQuestion.question}
                 </Title>
+                <p data-sal='slide-up' data-sal-delay='150' className='mt-2 text-sm text-slate-600 sm:text-base'>
+                  Please choose one of the answer
+                </p>
               </div>
 
               {activeQuestion.state === 'PRESTART' && (
@@ -164,14 +190,13 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
               )}
 
               {activeQuestion.state === 'STARTED' && (
-                <div className='mt-16 flex justify-center'>
+                <div className='mt-12 flex'>
                   <form
-                    data-sal='slide-up'
-                    data-sal-delay='300'
                     onSubmit={handleSubmit}
-                    className='flex w-full max-w-6xl flex-col items-center justify-center md:max-w-5xl lg:px-12 2xl:max-w-7xl'
+                    ref={trackSizeRef}
+                    className='z-[2] mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-5 sm:px-8'
                   >
-                    <div className='grid w-full gap-y-2 gap-x-4 sm:grid-cols-2 md:gap-y-4'>
+                    <div className='grid w-full gap-y-2 gap-x-4 sm:grid-cols-2 md:gap-y-3'>
                       {activeQuestion.options.map((option, i) => (
                         <RadioBlock
                           key={i}
@@ -183,31 +208,41 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
                       ))}
                     </div>
 
-                    <button
-                      data-sal='slide-up'
-                      data-sal-delay='600'
-                      className={clsxm(
-                        mutation.isLoading && 'cursor-wait border-none bg-opacity-50 !ring-0',
-                        'mt-16 flex items-center space-x-4 rounded-lg border-4 border-cyan-600 bg-cyan-800 py-4 px-12 text-2xl font-bold text-white ring-offset-2 transition-all duration-200 hover:ring-4 active:bg-cyan-700'
-                      )}
-                    >
-                      {mutation.isLoading && <Loader color='white' />}
-                      <span>Submit Answer</span>
-                    </button>
+                    <div className={clsxm(formHeight > 650 || formWidth < 360 ? 'mt-32' : 'mt-12')}></div>
+                    <div className='sticky bottom-[80px]'>
+                      <button
+                        data-sal='slide-up'
+                        data-sal-delay='600'
+                        disabled={mutation.isLoading}
+                        className={clsxm(
+                          mutation.isLoading && 'cursor-wait border-none !bg-gray-400 !ring-0',
+                          'flex items-center space-x-4 rounded-lg border-4 border-sky-700 bg-sky-600 py-[10px] px-10 text-xl font-bold text-white ring-offset-2 transition-all duration-200 hover:ring-4 active:bg-sky-700'
+                        )}
+                      >
+                        {mutation.isLoading && <Loader color='white' className='m-1 h-7 w-7' />}
+                        <span>Submit answer</span>
+                      </button>
+                    </div>
                   </form>
                 </div>
               )}
             </div>
-          </main>
+          </div>
         )}
 
         {event.state === 'STARTED' && (
-          <footer data-sal='fade' data-sal-delay='800' data-sal-duration='1000'>
-            <div className='flex flex-col justify-center py-8 text-lg text-slate-500 sm:flex-row sm:space-x-2'>
+          <footer
+            className='fixed inset-x-0 bottom-0 flex w-screen justify-center'
+            style={{ background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 20%, #FFFFFF 100%);' }}
+            data-sal='fade'
+            data-sal-delay='800'
+            data-sal-duration='1000'
+          >
+            <div className='flex flex-wrap justify-center space-x-2 px-5 py-6 text-xs text-slate-500 sm:text-sm'>
               <p>People joined: {participants.length}</p>
               {activeQuestion.state === 'STARTED' && (
                 <>
-                  <span className='hidden sm:block'>•</span>
+                  <span className=''>•</span>
                   <p>
                     People answered: {questionAnswers.length} ({answeredPercentage}%)
                   </p>
@@ -216,7 +251,7 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
             </div>
           </footer>
         )}
-      </div>
+      </section>
     </Layout>
   )
 }
