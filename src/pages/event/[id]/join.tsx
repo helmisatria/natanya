@@ -86,12 +86,10 @@ export default function JoinPage(propsEvent: IEvent) {
         ></img>
 
         <div className='relative z-20 mx-auto flex min-h-screen max-w-6xl flex-col overflow-y-hidden px-6 py-8 sm:py-20 sm:px-12 lg:max-w-7xl lg:px-28 xl:px-12'>
-          <nav className='z-10'>
+          <nav className='z-10 flex'>
             <Link href='/'>
-              <a>
-                <div className='w-36 cursor-pointer opacity-70 transition-opacity duration-150 hover:opacity-100 sm:w-[164px]'>
-                  <NatanyaIcon />
-                </div>
+              <a className='inline w-36 cursor-pointer opacity-70 transition-opacity duration-150 hover:opacity-100 sm:w-[164px]'>
+                <NatanyaIcon />
               </a>
             </Link>
           </nav>
