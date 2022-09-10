@@ -25,14 +25,14 @@ export default function PollResult({ activeQuestion }: PollResultProps) {
 
   return (
     <div>
-      <section className='sticky top-0 border-b bg-white py-7'>
+      <section className='sticky top-0 border-b px-5 py-7 sm:px-8'>
         <div data-sal='slide-up' data-sal-delay='0'>
           <p className='font-bold text-slate-800 underline'>Polling Result</p>
           <Title className='mt-2 text-4xl'>{activeQuestion.question}</Title>
         </div>
       </section>
 
-      <section className='my-12 space-y-6'>
+      <section className='my-12 space-y-6 px-5 sm:px-8'>
         {sortedAnswers.map(([answer, totalAnswer], index) => (
           <div
             data-sal='fade'
@@ -43,13 +43,14 @@ export default function PollResult({ activeQuestion }: PollResultProps) {
             <p className='text-lg font-medium md:text-xl'>{answer}</p>
             <div className='flex items-center space-x-5 md:space-x-7'>
               <div
-                className={`progress h-2 rounded-xl bg-cyan-500 transition-all duration-150 md:h-3 ${
-                  index === 0 && 'bg-cyan-900'
+                className={`progress h-2 rounded-xl bg-sky-500 transition-all duration-150 md:h-3 ${
+                  index === 0 && 'bg-sky-900'
                 }`}
                 style={{ width: `${(totalAnswer / totalQuestionAnswer) * 100}%` }}
               ></div>
               <span className='text-lg font-semibold md:text-xl'>
                 {((totalAnswer / totalQuestionAnswer) * 100).toFixed(2)}%
+                <span className='ml-2 text-sm'>({totalAnswer} Voters)</span>
               </span>
             </div>
           </div>
