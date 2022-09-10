@@ -99,7 +99,7 @@ export default function JoinPage(propsEvent: IEvent) {
               <Title
                 data-sal='slide-up'
                 data-sal-delay='0'
-                className='inline-flex rounded-lg bg-sky-700 py-2 px-4 text-base font-semibold leading-none text-white sm:text-xl'
+                className='inline-flex rounded-lg bg-sky-700 py-[6px] px-3 text-base font-semibold leading-none text-white sm:px-4 sm:text-xl'
               >
                 Joining {propsEvent.name}
               </Title>
