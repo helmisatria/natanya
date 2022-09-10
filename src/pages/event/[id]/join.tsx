@@ -1,7 +1,10 @@
-import { Button, Input, Text, Title } from '@mantine/core'
+/* eslint-disable @next/next/no-img-element */
+import { ArrowRightIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import { Loader, Text, Title } from '@mantine/core'
 import { useMutation } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
 import { GetServerSideProps } from 'next'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
@@ -10,6 +13,7 @@ import { getUser } from '@/lib/auth/user'
 import { redirectTo } from '@/lib/helper'
 import { IEvent } from '@/lib/types/types'
 
+import { NatanyaIcon } from '@/components/icons/Natanya'
 import Layout from '@/components/layout/Layout'
 import Seo from '@/components/Seo'
 
@@ -65,52 +69,92 @@ export default function JoinPage(propsEvent: IEvent) {
     <Layout>
       <Seo />
 
-      <div className='flex min-h-screen min-w-full flex-col items-center justify-center px-6 lg:max-w-7xl lg:px-0'>
-        <div className='-mt-32 flex min-h-screen w-full flex-col items-center justify-center lg:-mt-24'>
-          <Title
-            data-sal='slide-up'
-            data-sal-delay='0'
-            className='text-6xl font-black text-cyan-800 sm:text-center lg:text-8xl'
-          >
-            Joining{' '}
-            <Text inherit variant='gradient' component='span'>
-              {propsEvent.name}
-            </Text>
-          </Title>
-          <Text
-            data-sal='slide-up'
-            data-sal-delay='300'
-            className='mt-20 mb-4 w-full text-left text-xl font-semibold sm:text-center sm:text-2xl'
-          >
-            Please enter your name to join
-          </Text>
-          <form
-            data-sal='slide-up'
-            data-sal-delay='300'
-            onSubmit={onSubmit}
-            className='flex w-full flex-col items-center justify-center sm:flex-row'
-          >
-            <Input
-              ref={input}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value)}
-              placeholder='Enter your name'
-              autoFocus
-              className='w-full sm:w-96'
-              size='xl'
-              style={{ textAlign: 'center' }}
-            />
-            <Button
-              loading={mutation.isLoading}
-              type='submit'
-              variant='outline'
-              className='mt-2 min-h-full w-full sm:ml-4 sm:mt-0 sm:w-auto'
-              size='lg'
+      <main className='relative overflow-y-hidden'>
+        <img
+          data-sal='fade'
+          data-sal-delay='100'
+          data-sal-duration='900'
+          className='absolute inset-x-0 -bottom-[30%] hidden h-[700px] min-h-0 w-[100%] min-w-[110%] object-cover object-top !opacity-80 sm:block lg:-bottom-[20%] xl:h-[720px] 2xl:-bottom-0'
+          src='/images/mesh.png'
+          alt=''
+        ></img>
+
+        <img
+          className='absolute inset-0 -right-[10%] -top-[8%] block h-screen w-[100%] object-cover object-left opacity-80 sm:hidden'
+          src='/images/mobile-mesh.png'
+          alt=''
+        ></img>
+
+        <div className='relative z-20 mx-auto flex min-h-screen max-w-6xl flex-col overflow-y-hidden px-6 py-8 sm:py-20 sm:px-12 lg:max-w-7xl lg:px-28 xl:px-12'>
+          <nav className='z-10'>
+            <Link href='/'>
+              <a>
+                <div className='w-36 cursor-pointer opacity-70 transition-opacity duration-150 hover:opacity-100 sm:w-[164px]'>
+                  <NatanyaIcon />
+                </div>
+              </a>
+            </Link>
+          </nav>
+
+          <section className='mt-20 flex flex-1 flex-col justify-center sm:-mt-12'>
+            <div>
+              <Title
+                data-sal='slide-up'
+                data-sal-delay='0'
+                className='inline-flex rounded-lg bg-sky-700 py-2 px-4 text-xl font-semibold leading-none text-white'
+              >
+                Joining {propsEvent.name}
+              </Title>
+            </div>
+            <Text
+              data-sal='slide-up'
+              data-sal-delay='200'
+              className='mt-5 text-6xl font-bold tracking-tight text-sky-900 sm:text-6xl'
             >
-              Join
-            </Button>
-          </form>
+              Please enter your name to join
+            </Text>
+            <form
+              data-sal='slide-up'
+              data-sal-delay='400'
+              onSubmit={onSubmit}
+              className='mt-12 flex w-full flex-col items-center space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4'
+            >
+              <div className='relative rounded-lg shadow-md'>
+                <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-6'>
+                  <UserCircleIcon className='h-7 w-7 text-sky-800 text-opacity-50' />
+                </div>
+                <input
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value)}
+                  ref={input}
+                  type='text'
+                  required
+                  name='user-name'
+                  id='user-name'
+                  className='block h-full w-full rounded-lg border-2 border-sky-600 py-6 px-16 text-lg focus:border-sky-700 focus:ring-sky-700 sm:text-2xl'
+                  placeholder='Enter your name'
+                  aria-describedby='user-name'
+                />
+              </div>
+              <button
+                disabled={mutation.isLoading}
+                className='flex justify-center rounded-lg border-2 border-sky-600 p-6 text-center shadow-md transition-all duration-150 hover:border-sky-700 hover:bg-sky-50 focus-visible:border-sky-700 disabled:cursor-not-allowed disabled:border-slate-300 disabled:bg-slate-200'
+              >
+                {mutation.isLoading ? (
+                  <div className='flex items-center space-x-3 sm:space-x-0'>
+                    <span className='block text-lg font-medium text-slate-600 sm:hidden'>Checking Event</span>
+                    <Loader size={30} color='gray' />
+                  </div>
+                ) : (
+                  <div className='flex items-center space-x-3 sm:space-x-0'>
+                    <span className='block text-lg font-medium text-sky-900 sm:hidden'>Join Event</span>
+                    <ArrowRightIcon className='h-[30px] w-[30px] text-sky-900' />
+                  </div>
+                )}
+              </button>
+            </form>
+          </section>
         </div>
-      </div>
+      </main>
     </Layout>
   )
 }

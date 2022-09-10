@@ -3,6 +3,7 @@ import { ArrowRightIcon } from '@heroicons/react/24/solid'
 import { Loader, Title } from '@mantine/core'
 import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 
@@ -45,22 +46,29 @@ export default function HomePage() {
       <Seo />
       <main className='relative overflow-y-hidden'>
         <img
-          className='absolute inset-x-0 -bottom-[30%] hidden h-[700px] min-h-0 w-[100%] min-w-[110%] object-cover object-top opacity-80 sm:block lg:-bottom-[20%] xl:h-[720px] 2xl:-bottom-0'
+          data-sal='fade'
+          data-sal-delay='200'
+          data-sal-duration='900'
+          className='absolute inset-x-0 -bottom-[30%] hidden h-[700px] min-h-0 w-[100%] min-w-[110%] object-cover object-top !opacity-80 sm:block lg:-bottom-[20%] xl:h-[720px] 2xl:-bottom-0'
           src='/images/mesh.png'
           alt=''
         ></img>
 
         <img
-          className='absolute inset-0 -right-[10%] -top-[8%] block h-screen w-[100%] object-cover object-left opacity-80 sm:hidden'
+          className='absolute inset-0 -right-[10%] -top-[8%] block h-screen w-[100%] object-cover object-left !opacity-80 sm:hidden'
           src='/images/mobile-mesh.png'
           alt=''
         ></img>
 
         <div className='relative z-20 mx-auto flex min-h-screen max-w-6xl flex-col overflow-y-hidden px-6 py-8 sm:py-20 sm:px-12 lg:max-w-7xl lg:px-28 xl:px-12'>
-          <nav>
-            <div className='w-36 opacity-70 sm:w-[164px]'>
-              <NatanyaIcon />
-            </div>
+          <nav className='z-10'>
+            <Link href='/'>
+              <a>
+                <div className='w-36 cursor-pointer opacity-70 transition-opacity duration-150 hover:opacity-100 sm:w-[164px]'>
+                  <NatanyaIcon />
+                </div>
+              </a>
+            </Link>
           </nav>
 
           <section className='mt-20 flex flex-1 flex-col justify-center sm:-mt-12'>
