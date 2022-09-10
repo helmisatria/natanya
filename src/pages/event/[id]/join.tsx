@@ -134,7 +134,7 @@ export default function JoinPage(propsEvent: IEvent) {
                     required
                     name='user-name'
                     id='user-name'
-                    className='block h-full w-full rounded-lg border-2 border-sky-600 py-6 px-16 text-lg focus:border-sky-700 focus:ring-sky-700 sm:text-2xl'
+                    className='block h-full w-full rounded-lg border-2 border-sky-600 py-6 px-16 text-lg tracking-tight focus:border-sky-700 focus:ring-sky-700 sm:text-2xl'
                     placeholder='Enter your name'
                     aria-describedby='user-name'
                   />
