@@ -154,16 +154,16 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
               <PollResult activeQuestion={activeQuestion} />
             </div>
           ) : (
-            <div className='z-[2] flex flex-col'>
+            <div className={clsxm('z-[2] flex flex-1 flex-col justify-center', formHeight < 500 ? '-mt-52' : '-mt-20')}>
               <div>
                 <div
-                  className='sticky top-0 z-10 mx-auto max-w-7xl px-5 pt-4 sm:px-8'
+                  className='sticky top-0 z-10 mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-5 pt-4 sm:px-8'
                   style={{
                     background:
                       'linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.588542) 70.44%, rgba(255, 255, 255, 0) 100%);',
                   }}
                 >
-                  <Title data-sal='slide-up' className='text-3xl text-gray-800 sm:text-5xl lg:max-w-[55%]'>
+                  <Title data-sal='slide-up' className='text-center text-3xl text-gray-800 sm:text-5xl lg:max-w-[55%]'>
                     {activeQuestion.question}
                   </Title>
                   <p data-sal='slide-up' data-sal-delay='150' className='mt-2 text-sm text-slate-600 sm:text-base'>
@@ -217,7 +217,7 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
                           disabled={mutation.isLoading}
                           className={clsxm(
                             mutation.isLoading && 'cursor-wait border-none !bg-gray-400 !ring-0',
-                            'flex items-center space-x-4 rounded-lg border-4 border-sky-700 bg-sky-600 py-[10px] px-10 text-xl font-bold text-white ring-offset-2 transition-all duration-200 hover:ring-4 active:bg-sky-700'
+                            'flex items-center space-x-4 rounded-lg border-4 border-sky-700 bg-sky-600 py-[10px] px-10 text-xl font-bold text-white ring-sky-500 ring-offset-2 transition-all duration-200 focus-within:ring-4 hover:bg-opacity-95 hover:ring-4 active:bg-sky-700'
                           )}
                         >
                           {mutation.isLoading && <Loader color='white' className='m-1 h-7 w-7' />}
