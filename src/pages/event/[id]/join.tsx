@@ -94,12 +94,12 @@ export default function JoinPage(propsEvent: IEvent) {
             </Link>
           </nav>
 
-          <section className='mt-20 flex flex-1 flex-col justify-center sm:-mt-12'>
+          <section className='mt-10 flex flex-1 flex-col justify-center sm:-mt-12'>
             <div>
               <Title
                 data-sal='slide-up'
                 data-sal-delay='0'
-                className='inline-flex rounded-lg bg-sky-700 py-2 px-4 text-xl font-semibold leading-none text-white'
+                className='inline-flex rounded-lg bg-sky-700 py-2 px-4 text-base font-semibold leading-none text-white sm:text-xl'
               >
                 Joining {propsEvent.name}
               </Title>
@@ -107,15 +107,15 @@ export default function JoinPage(propsEvent: IEvent) {
             <Text
               data-sal='slide-up'
               data-sal-delay='200'
-              className='mt-5 text-6xl font-bold tracking-tight text-sky-900 sm:text-6xl'
+              className='mt-5 text-4xl font-bold tracking-tight text-sky-900 sm:text-6xl'
             >
-              Please enter your name to join
+              Please enter <br /> your name to join
             </Text>
             <form
               data-sal='slide-up'
               data-sal-delay='400'
               onSubmit={onSubmit}
-              className='mt-10 flex w-full flex-col items-end space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4'
+              className='mt-10 flex w-full flex-col space-y-4 sm:flex-row sm:items-end sm:space-y-0 sm:space-x-4'
             >
               <div>
                 <label htmlFor='user-name' className='mb-2 block text-lg font-semibold text-slate-600'>
@@ -141,7 +141,7 @@ export default function JoinPage(propsEvent: IEvent) {
 
               <button
                 disabled={mutation.isLoading}
-                className='flex justify-center rounded-lg border-2 border-sky-600 p-6 text-center shadow-md transition-all duration-150 hover:border-sky-700 hover:bg-sky-50 focus-visible:border-sky-700 disabled:cursor-not-allowed disabled:border-slate-300 disabled:bg-slate-200'
+                className='flex justify-center rounded-lg border-2 border-sky-600 p-4 text-center shadow-md transition-all duration-150 hover:border-sky-700 hover:bg-sky-50 focus-visible:border-sky-700 disabled:cursor-not-allowed disabled:border-slate-300 disabled:bg-slate-200 sm:p-6'
               >
                 {mutation.isLoading ? (
                   <div className='flex items-center space-x-3 sm:space-x-0'>
@@ -150,7 +150,7 @@ export default function JoinPage(propsEvent: IEvent) {
                   </div>
                 ) : (
                   <div className='flex items-center space-x-3 sm:space-x-0'>
-                    <span className='block text-lg font-medium text-sky-900 sm:hidden'>Join Event</span>
+                    <span className='block text-lg font-medium text-sky-900 sm:hidden'>Enter Room</span>
                     <ArrowRightIcon className='h-[30px] w-[30px] text-sky-900' />
                   </div>
                 )}
