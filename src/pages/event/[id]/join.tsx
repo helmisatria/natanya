@@ -117,24 +117,30 @@ export default function JoinPage(propsEvent: IEvent) {
               data-sal='slide-up'
               data-sal-delay='400'
               onSubmit={onSubmit}
-              className='mt-12 flex w-full flex-col items-center space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4'
+              className='mt-10 flex w-full flex-col items-end space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4'
             >
-              <div className='relative rounded-lg shadow-md'>
-                <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-6'>
-                  <UserCircleIcon className='h-7 w-7 text-sky-800 text-opacity-50' />
+              <div>
+                <label htmlFor='user-name' className='mb-2 block text-lg font-semibold text-slate-600'>
+                  Display Name
+                </label>
+                <div className='relative rounded-lg shadow-md'>
+                  <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-6'>
+                    <UserCircleIcon className='h-7 w-7 text-sky-800 text-opacity-50' />
+                  </div>
+                  <input
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value)}
+                    ref={input}
+                    type='text'
+                    required
+                    name='user-name'
+                    id='user-name'
+                    className='block h-full w-full rounded-lg border-2 border-sky-600 py-6 px-16 text-lg focus:border-sky-700 focus:ring-sky-700 sm:text-2xl'
+                    placeholder='Enter your name'
+                    aria-describedby='user-name'
+                  />
                 </div>
-                <input
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value)}
-                  ref={input}
-                  type='text'
-                  required
-                  name='user-name'
-                  id='user-name'
-                  className='block h-full w-full rounded-lg border-2 border-sky-600 py-6 px-16 text-lg focus:border-sky-700 focus:ring-sky-700 sm:text-2xl'
-                  placeholder='Enter your name'
-                  aria-describedby='user-name'
-                />
               </div>
+
               <button
                 disabled={mutation.isLoading}
                 className='flex justify-center rounded-lg border-2 border-sky-600 p-6 text-center shadow-md transition-all duration-150 hover:border-sky-700 hover:bg-sky-50 focus-visible:border-sky-700 disabled:cursor-not-allowed disabled:border-slate-300 disabled:bg-slate-200'
