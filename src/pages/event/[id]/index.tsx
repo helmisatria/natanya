@@ -175,7 +175,7 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
                   <div
                     data-sal='slide-up'
                     data-sal-delay='300'
-                    className='z-[2] mx-auto my-12 flex w-full max-w-7xl items-center space-x-2 px-5 sm:px-8'
+                    className='z-[2] mx-auto my-12 flex w-full max-w-7xl items-center justify-center space-x-2 px-5 sm:px-8'
                   >
                     <svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
                       <path
