@@ -133,7 +133,7 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
 
       <nav className='mb-8 flex items-center justify-center sm:mb-[80px]'>
         <div data-sal='fade' data-sal-delay='800' data-sal-duration='1000' className='mt-6 rounded-lg bg-sky-50'>
-          <p className='relative z-10 py-1 px-4 text-center text-sm font-semibold text-sky-500 md:text-lg'>
+          <p className='relative z-10 py-1 px-4 text-center text-sm font-semibold tracking-tight text-sky-500 sm:text-base'>
             {event.name}
           </p>
         </div>
