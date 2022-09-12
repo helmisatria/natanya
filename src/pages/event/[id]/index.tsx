@@ -132,7 +132,7 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
       </div>
 
       <div className='flex min-h-screen flex-col'>
-        <nav className='mb-8 flex items-center justify-center sm:mb-[80px]'>
+        <nav className='mb-2 flex items-center justify-center sm:mb-[80px]'>
           <div data-sal='fade' data-sal-delay='800' data-sal-duration='1000' className='mt-6 rounded-lg bg-sky-50'>
             <p className='relative z-10 py-1 px-4 text-center text-sm font-semibold tracking-tight text-sky-500 sm:text-base'>
               {event.name}
@@ -154,16 +154,24 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
               <PollResult activeQuestion={activeQuestion} />
             </div>
           ) : (
-            <div className={clsxm('z-[2] flex flex-1 flex-col justify-center', formHeight < 500 ? '-mt-52' : '-mt-20')}>
+            <div
+              className={clsxm(
+                'z-[2] flex flex-1 flex-col justify-center',
+                formHeight < 500 ? 'sm:-mt-52' : 'sm:-mt-20'
+              )}
+            >
               <div>
                 <div
-                  className='sticky top-0 z-10 mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-5 pt-4 sm:px-8'
+                  className='z-10 mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-5 pt-4 sm:sticky sm:top-0 sm:px-8'
                   style={{
                     background:
                       'linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.588542) 70.44%, rgba(255, 255, 255, 0) 100%);',
                   }}
                 >
-                  <Title data-sal='slide-up' className='text-center text-3xl text-gray-800 sm:text-5xl lg:max-w-[55%]'>
+                  <Title
+                    data-sal='slide-up'
+                    className='max-w-2xl text-center text-3xl leading-8 text-gray-800 sm:text-5xl sm:leading-[110%] lg:max-w-[55%]'
+                  >
                     {activeQuestion.question}
                   </Title>
                   <p data-sal='slide-up' data-sal-delay='150' className='mt-2 text-sm text-slate-600 sm:text-base'>
