@@ -35,8 +35,8 @@ export default function EventDetailPage() {
       </header>
 
       <main className='mx-auto max-w-7xl px-5'>
-        <div className='-mt-[15rem] grid min-h-[70vh] w-full grid-cols-2 gap-x-5 gap-y-8'>
-          <div className='flex-1 rounded-lg bg-white p-8 shadow'>
+        <div className='-mt-[15rem] grid min-h-[70vh] w-full gap-x-5 gap-y-8 md:grid-cols-2'>
+          <div className='flex-1 rounded-lg bg-white p-4 shadow md:p-8'>
             <AdminEventDetailLeftSection />
           </div>
           <div className='flex-1 rounded-lg bg-white shadow'>
