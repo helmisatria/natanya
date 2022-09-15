@@ -1,10 +1,8 @@
-/* eslint-disable unused-imports/no-unused-vars */
 /* eslint-disable @next/next/no-img-element */
 import { PlusIcon } from '@heroicons/react/24/solid'
 import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import { unstable_getServerSession } from 'next-auth'
-import { useSession } from 'next-auth/react'
 
 import { IEvent } from '@/lib/types/types'
 
@@ -30,8 +28,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 export default function AppPage({ events }: { events: IEvent[] }) {
-  const session = useSession()
-
   return (
     <AdminLayout>
       <Seo title='Natanya - Admin Dashboard' />

@@ -15,12 +15,6 @@ module.exports = {
 
   // SVGR
   webpack(config, { isServer }) {
-    if (!isServer) {
-      config.node = {
-        fs: 'empty',
-      }
-    }
-
     config.module.rules.push({
       test: /\.svg$/i,
       issuer: /\.[jt]sx?$/,

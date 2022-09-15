@@ -1,4 +1,3 @@
-/* eslint-disable unused-imports/no-unused-vars */
 import { ChevronLeftIcon } from '@heroicons/react/24/solid'
 import { onValue, ref } from 'firebase/database'
 import { GetServerSideProps } from 'next'
