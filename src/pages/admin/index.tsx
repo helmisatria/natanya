@@ -18,8 +18,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return { redirect: { destination: '/login', permanent: false } }
   }
 
-  // const host = context.req.headers.host
-  // const { data: events } = await axios.get(`http://${host}/api/admin/events`)
   const events = await adminGetAllEvents()
 
   return {
