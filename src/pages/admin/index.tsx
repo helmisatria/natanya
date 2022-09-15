@@ -10,7 +10,7 @@ import AdminLayout from '@/components/layout/AdminLayout'
 import Seo from '@/components/Seo'
 
 import { nextAuthOptions } from '@/pages/api/auth/[...nextauth]'
-import { adminGetAllEvents } from '@/pages/server/events/event'
+import { adminGetAllEvents } from '@/server/events/event'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await unstable_getServerSession(context.req, context.res, nextAuthOptions)
@@ -18,6 +18,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return { redirect: { destination: '/login', permanent: false } }
   }
 
+  // const host = context.req.headers.host
+  // const { data: events } = await axios.get(`http://${host}/api/admin/events`)
   const events = await adminGetAllEvents()
 
   return {

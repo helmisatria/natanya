@@ -5,7 +5,7 @@ import { unstable_getServerSession } from 'next-auth'
 import { IQuestion } from '@/lib/types/types'
 
 import { nextAuthOptions } from '@/pages/api/auth/[...nextauth]'
-import { adminUpdateQuestionState } from '@/pages/server/events/event'
+import { adminUpdateQuestionState } from '@/server/events/event'
 
 export default async function routeUpdateQuestionState(req: NextApiRequest, res: NextApiResponse) {
   const session = await unstable_getServerSession(req, res, nextAuthOptions)

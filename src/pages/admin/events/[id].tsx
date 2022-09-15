@@ -15,7 +15,7 @@ import { OnlyPollingResult } from '@/components/PollResult'
 import Seo from '@/components/Seo'
 
 import { nextAuthOptions } from '@/pages/api/auth/[...nextauth]'
-import { adminGetEventDetail } from '@/pages/server/events/event'
+import { adminGetEventDetail } from '@/server/events/event'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await unstable_getServerSession(context.req, context.res, nextAuthOptions)

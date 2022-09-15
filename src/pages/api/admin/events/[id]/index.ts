@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { unstable_getServerSession } from 'next-auth'
 
 import { nextAuthOptions } from '@/pages/api/auth/[...nextauth]'
-import { adminUpdateEventState } from '@/pages/server/events/event'
+import { adminUpdateEventState } from '@/server/events/event'
 
 export default async function routeUpdateEventState(req: NextApiRequest, res: NextApiResponse) {
   const session = await unstable_getServerSession(req, res, nextAuthOptions)
