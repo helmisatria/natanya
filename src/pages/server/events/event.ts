@@ -6,7 +6,7 @@ export const adminGetAllEvents = async () => {
     const data = await (await adminDb.ref(`events`).once('value')).val()
 
     const dataToArray = Object.entries(data).map(([key, value]) => {
-      return value ? { ...value, key } : {}
+      return typeof value === 'object' ? { ...value, key } : {}
     })
 
     return dataToArray as IEvent[]
