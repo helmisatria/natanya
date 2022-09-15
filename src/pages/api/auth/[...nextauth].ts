@@ -18,10 +18,6 @@ export const redirectAdminGuard = async (context: GetServerSidePropsContext) => 
       },
     }
   }
-
-  return {
-    props: {},
-  }
 }
 
 export const nextAuthOptions: NextAuthOptions = {

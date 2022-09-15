@@ -3,19 +3,39 @@
 import { PlusIcon } from '@heroicons/react/24/solid'
 import { GetServerSideProps } from 'next'
 import Link from 'next/link'
+import { unstable_getServerSession } from 'next-auth'
 import { useSession } from 'next-auth/react'
 
+import { IEvent } from '@/lib/types/types'
+
 import AdminLayout from '@/components/layout/AdminLayout'
+import Seo from '@/components/Seo'
 
-import { redirectAdminGuard } from '@/pages/api/auth/[...nextauth]'
+import { nextAuthOptions } from '@/pages/api/auth/[...nextauth]'
+import { adminGetAllEvents } from '@/pages/server/events/event'
 
-export const getServerSideProps: GetServerSideProps = async (context) => redirectAdminGuard(context)
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await unstable_getServerSession(context.req, context.res, nextAuthOptions)
+  if (!session) {
+    return { redirect: { destination: '/login', permanent: false } }
+  }
 
-export default function AppPage() {
+  const events = await adminGetAllEvents()
+
+  return {
+    props: {
+      events,
+    },
+  }
+}
+
+export default function AppPage({ events }: { events: IEvent[] }) {
   const session = useSession()
 
   return (
     <AdminLayout>
+      <Seo title='Natanya - Admin Dashboard' />
+
       <header className='bg-sky-900 pt-[3rem] pb-[18rem] shadow sm:pt-[5.4rem]'>
         <div className='mx-auto flex max-w-7xl items-center justify-between px-5'>
           <h1 data-sal='fade' className='text-2xl font-bold text-white sm:text-4xl'>
@@ -32,14 +52,16 @@ export default function AppPage() {
       <main className='mx-auto max-w-7xl px-5'>
         <div className='-mt-[15rem] min-h-[60vh] w-full rounded-lg bg-white shadow-md'>
           <ul className='space-y-3 p-4 sm:p-8'>
-            <li data-sal='slide-up'>
-              <Link href='/admin/events/1'>
-                <a className='flex w-full flex-col items-start rounded border bg-white py-4 px-7 text-xl shadow sm:flex-row sm:space-x-3'>
-                  <span className='text-xl font-semibold'>Special Event</span>{' '}
-                  <span className='font-semibold text-slate-600'>#888-123</span>
-                </a>
-              </Link>
-            </li>
+            {events.map((event) => (
+              <li key={event.id} data-sal='slide-up'>
+                <Link href={`/admin/events/${event.key}`}>
+                  <a className='flex w-full flex-col items-start rounded border bg-white py-4 px-7 text-xl shadow sm:flex-row sm:space-x-3'>
+                    <span className='text-xl font-semibold'>{event.name}</span>{' '}
+                    <span className='font-semibold text-slate-600'>#{event.code}</span>
+                  </a>
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </main>

@@ -8,11 +8,12 @@ export interface IQuestion {
   options: string[]
   order: string
   question: string
-  answers: IAnswer
+  answers: IAnswer | '' | undefined
   state: 'PRESTART' | 'STARTED' | 'ENDED'
 }
 
 export interface IEvent {
+  key?: string
   activeQuestionKey: string
   code: string
   description: string

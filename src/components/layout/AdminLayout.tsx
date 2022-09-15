@@ -20,7 +20,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <>
       <Toaster />
 
-      <nav className='sticky top-0 bg-sky-900'>
+      <nav className='bg-sky-900'>
         <div className='mx-auto max-w-7xl border-b border-sky-800 bg-sky-900 px-5'>
           <ul className='flex items-center justify-between py-4'>
             <li className='rounded-lg bg-white py-1 px-2 font-semibold'>

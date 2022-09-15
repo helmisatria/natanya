@@ -36,11 +36,15 @@ export const decodeCurrentUser = (req: NextApiRequest, res: NextApiResponse): Us
 export const isAuthenticated = async (req: NextApiRequest, res: NextApiResponse): Promise<isAuthenticatedType> => {
   const cookies = new Cookies(req, res)
   const authorization = cookies.get('Authorization')
+  // const authNextHeader = cookies.get('__Secure-next-auth.session-token')
   const eventId = req.query.id as string
 
+  // console.log('authNextHeader :>> ', authNextHeader)
   if (!authorization) return null
 
-  const decoded = jwt.verify(authorization, process.env.JWT_SECRET as string) as UserJWTType
+  // const decodedAuthNext = jwt.verify(authNextHeader ?? '', process.env.JWT_SECRET as string) as UserJWTType
+  // console.log('decodedAuthNext :>> ', decodedAuthNext)
+  const decoded = jwt.verify(authorization ?? '', process.env.JWT_SECRET as string) as UserJWTType
   const userName = decoded[eventId]?.name
 
   if (!userName) return null
