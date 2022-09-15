@@ -105,7 +105,7 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
   }
 
   const isAnsweredOption = (option: string) => {
-    return activeQuestion.answers?.[user.name]?.[0] === option
+    return (activeQuestion.answers || {})?.[user.name]?.[0] === option
   }
 
   const { ref: trackSizeRef, height: formHeight, width: formWidth } = useElementSize()
@@ -160,7 +160,7 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
                   className='sticky top-0 z-10 mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-5 pt-4 sm:px-8'
                   style={{
                     background:
-                      'linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.588542) 70.44%, rgba(255, 255, 255, 0) 100%);',
+                      'linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.588542) 70.44%, rgba(255, 255, 255, 0) 100%)',
                   }}
                 >
                   <Title data-sal='slide-up' className='text-center text-3xl text-gray-800 sm:text-5xl lg:max-w-[55%]'>
@@ -234,7 +234,7 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
           {event.state === 'STARTED' && (
             <footer
               className='fixed inset-x-0 bottom-0 flex w-screen justify-center'
-              style={{ background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 20%, #FFFFFF 100%);' }}
+              style={{ background: 'linear-gradient(180deg, rgba(255, 255, 255, 0) 20%, #FFFFFF 100%)' }}
               data-sal='fade'
               data-sal-delay='800'
               data-sal-duration='1000'

@@ -40,7 +40,7 @@ export const isAuthenticated = async (req: NextApiRequest, res: NextApiResponse)
 
   if (!authorization) return null
 
-  const decoded = jwt.verify(authorization, process.env.JWT_SECRET as string) as UserJWTType
+  const decoded = jwt.verify(authorization ?? '', process.env.JWT_SECRET as string) as UserJWTType
   const userName = decoded[eventId]?.name
 
   if (!userName) return null
