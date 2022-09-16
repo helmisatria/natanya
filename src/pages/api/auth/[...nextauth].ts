@@ -36,8 +36,8 @@ export const nextAuthOptions: NextAuthOptions = {
       const whitelistUsers = [
         'satriahelmi@gmail.com',
         'helmi.satria@wartek.belajar.id',
-        'muhammad.rivki@wartek.belajar.id',
-        'rahmanda.wibowo@wartek.belajar.id',
+        'rivki@wartek.belajar.id',
+        'rahmanda@wartek.belajar.id',
       ]
 
       const isAllowedToSignIn = whitelistUsers.includes(user.email || '')
