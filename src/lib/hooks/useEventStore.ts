@@ -25,7 +25,7 @@ export const useEventStore = create<EventState>()((set, get) => ({
   },
   computed: {
     get activeQuestion() {
-      return get().event?.questions[get().event?.activeQuestionKey ?? '0'] ?? null
+      return get().event?.questions?.[get().event?.activeQuestionKey ?? '0'] ?? null
     },
     get participants() {
       return Object.values(get().event?.userNames ?? {})

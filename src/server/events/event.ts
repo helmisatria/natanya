@@ -1,3 +1,6 @@
+import { nanoid } from 'nanoid'
+import { z } from 'zod'
+
 import { adminDb } from '@/lib/firebase/firebase-admin'
 import { IEvent, IQuestion } from '@/lib/types/types'
 
@@ -13,6 +16,45 @@ export const adminGetAllEvents = async () => {
   } catch (error) {
     return null
   }
+}
+
+// zod schema for create new event
+export const createNewEventSchema = z.object({
+  name: z.string(),
+  description: z.string().optional(),
+})
+
+export const adminCreateNewEvent = async (event: z.infer<typeof createNewEventSchema>) => {
+  const { success: isValidBody } = createNewEventSchema.safeParse(event)
+
+  if (!isValidBody) {
+    throw new Error('Invalid body')
+  }
+
+  const { name, description } = event
+
+  const formattedName = name.toLowerCase().replace(/\s/g, '-')
+
+  const newEvent = {
+    name,
+    description,
+    activeQuestionKey: '0',
+    code: nanoid(6),
+    userNames: {},
+    questions: [],
+    ownerUserId: 'coming-soon',
+    state: 'PRESTART',
+    id: formattedName,
+  }
+
+  // validate is event name is unique
+  const foundEvent = await (await adminDb.ref(`events/${formattedName}`).once('value')).val()
+
+  if (foundEvent) {
+    throw new Error('Event name is already taken')
+  }
+
+  return adminDb.ref(`events/${name}`).set(newEvent)
 }
 
 export const adminGetEventDetail = async (key: string) => {

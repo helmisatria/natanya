@@ -32,7 +32,7 @@ export default function AdminEventDetailLeftSection() {
   return (
     <>
       <div>
-        <div className='header flex flex-col flex-wrap justify-between space-y-3 md:flex-row md:items-center'>
+        <div className='header flex flex-col flex-wrap justify-between space-y-3 md:flex-row md:items-center md:space-y-0'>
           <div className='header-left flex items-center space-x-5'>
             <div className='flex items-center space-x-2'>
               {(event?.state === 'STARTED' || event?.state === 'ENDED') && (

@@ -97,7 +97,7 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
       },
       onError: (err) => {
         const error = err as AxiosError<{ message: string }>
-        if ((error as AxiosError)?.response?.status === 400) {
+        if (error?.response?.status === 400) {
           notify.error(error?.response?.data?.message ?? 'Unknown error')
         }
       },
