@@ -123,16 +123,10 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
           src='/images/mesh.png'
           alt=''
         ></img>
-
-        <img
-          className='absolute inset-0 -right-[10%] -top-[8%] block h-screen w-[100%] object-cover object-left !opacity-80 sm:hidden'
-          src='/images/mobile-mesh.png'
-          alt=''
-        ></img>
       </div>
 
       <div className='flex min-h-screen flex-col'>
-        <nav className='mb-8 flex items-center justify-center sm:mb-[80px]'>
+        <nav className='mb-8 flex items-center justify-center'>
           <div data-sal='fade' data-sal-delay='800' data-sal-duration='1000' className='mt-6 rounded-lg bg-sky-50'>
             <p className='relative z-10 py-1 px-4 text-center text-sm font-semibold tracking-tight text-sky-500 sm:text-base'>
               {event.name}
@@ -142,19 +136,19 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
 
         <section className='flex flex-1 flex-col'>
           {event.state === 'ENDED' ? (
-            <div className='z-[2] mx-auto -mt-52 flex h-full w-full max-w-screen-lg flex-1 flex-col justify-center'>
+            <div className='z-[2] mx-auto flex h-full w-full max-w-screen-lg flex-1 flex-col justify-center  '>
               <EventEndedContent />
             </div>
           ) : event.state === 'PRESTART' ? (
-            <div className='z-[2] mx-auto -mt-52 flex h-full w-full max-w-screen-lg flex-1 flex-col justify-center'>
+            <div className='z-[2] mx-auto flex h-full w-full max-w-screen-lg flex-1 flex-col justify-center '>
               <WaitingEventStarted />
             </div>
           ) : activeQuestion.state === 'ENDED' ? (
-            <div className='z-[2] mx-auto -mt-52 flex h-full w-full max-w-screen-lg flex-1 flex-col justify-center'>
+            <div className='z-[2] mx-auto flex h-full w-full max-w-screen-lg flex-1 flex-col justify-center  '>
               <PollResult activeQuestion={activeQuestion} />
             </div>
           ) : (
-            <div className={clsxm('z-[2] flex flex-1 flex-col justify-center', formHeight < 500 ? '-mt-52' : '-mt-20')}>
+            <div className={clsxm('z-[2] flex flex-1 flex-col sm:mt-8 lg:mt-10 lg:justify-start xl:mt-24 2xl:mt-36')}>
               <div>
                 <div
                   className='sticky top-0 z-10 mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-5 pt-4 sm:px-8'
@@ -163,7 +157,10 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
                       'linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.588542) 70.44%, rgba(255, 255, 255, 0) 100%)',
                   }}
                 >
-                  <Title data-sal='slide-up' className='text-center text-3xl text-gray-800 sm:text-5xl lg:max-w-[55%]'>
+                  <Title
+                    data-sal='slide-up'
+                    className='text-center text-3xl text-gray-800 lg:max-w-[80%] lg:text-4xl xl:max-w-[70%] xl:text-5xl'
+                  >
                     {activeQuestion.question}
                   </Title>
                   <p data-sal='slide-up' data-sal-delay='150' className='mt-2 text-sm text-slate-600 sm:text-base'>
@@ -195,7 +192,7 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
                     <form
                       onSubmit={handleSubmit}
                       ref={trackSizeRef}
-                      className='z-[2] mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-5 sm:px-8'
+                      className='z-[2] mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-5 sm:px-16'
                     >
                       <div className='grid w-full gap-y-2 gap-x-4 sm:grid-cols-2 md:gap-y-3'>
                         {activeQuestion.options.map((option, i) => (
@@ -210,14 +207,14 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
                       </div>
 
                       <div className={clsxm(formHeight > 650 || formWidth < 360 ? 'mt-32' : 'mt-12')}></div>
-                      <div className='sticky bottom-[80px]'>
+                      <div className='sticky bottom-14 md:bottom-[80px]'>
                         <button
                           data-sal='slide-up'
                           data-sal-delay='600'
                           disabled={mutation.isLoading}
                           className={clsxm(
                             mutation.isLoading && 'cursor-wait border-none !bg-gray-400 !ring-0',
-                            'flex items-center space-x-4 rounded-lg border-4 border-sky-700 bg-sky-600 py-[10px] px-10 text-xl font-bold text-white ring-sky-500 ring-offset-2 transition-all duration-200 focus-within:ring-4 hover:bg-opacity-95 hover:ring-4 active:bg-sky-700'
+                            'flex items-center space-x-4 rounded-lg border-4 border-sky-700 bg-sky-600 py-2 px-6 text-lg font-bold text-white ring-sky-500 ring-offset-2 transition-all duration-200 focus-within:ring-4 hover:bg-opacity-95 hover:ring-4 active:bg-sky-700 md:py-[10px] md:px-10 md:text-xl'
                           )}
                         >
                           {mutation.isLoading && <Loader color='white' className='m-1 h-7 w-7' />}
