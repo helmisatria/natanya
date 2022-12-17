@@ -20,7 +20,7 @@ export default async function routeCreateQuestion(req: NextApiRequest, res: Next
 
   const result = await adminCreateNewQuestion(req.query.id as string, {
     id: nanoid(),
-    question: body.question,
+    question: body.questions,
     answers: {},
     state: 'PRESTART',
     correctAnswers: [],

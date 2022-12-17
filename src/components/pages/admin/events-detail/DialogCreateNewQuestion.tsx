@@ -33,9 +33,9 @@ export default function DialogCreateNewQuestion({
   }
 
   const mutation = useMutation(
-    ({ name, description }: { name: string; description: string }) => {
+    ({ questions }: { questions: string }) => {
       const address = `/api/admin/events/${query.id}/questions`
-      return axios.post(address, { name, description })
+      return axios.post(address, { questions })
     },
     {
       onError: (err) => {
@@ -57,7 +57,7 @@ export default function DialogCreateNewQuestion({
 
     const data = new FormData(e.currentTarget)
 
-    mutation.mutate({ name: data.get('event-name') as string, description: data.get('description') as string })
+    mutation.mutate({ questions: data.get('new-questions') as string })
   }
 
   return (

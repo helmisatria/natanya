@@ -195,7 +195,7 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
                       className='z-[2] mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-5 sm:px-16'
                     >
                       <div className='grid w-full gap-y-2 gap-x-4 sm:grid-cols-2 md:gap-y-3'>
-                        {activeQuestion.options.map((option, i) => (
+                        {activeQuestion?.options?.map((option, i) => (
                           <RadioBlock
                             key={i}
                             id={String(i)}
