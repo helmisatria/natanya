@@ -60,9 +60,9 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
   const [event, setEvent] = useState(propsEvent)
   const router = useRouter()
 
-  const activeQuestion = event.questions[event.activeQuestionKey ?? '0']
+  const activeQuestion = event.questions?.[event.activeQuestionKey ?? '0']
   const participants = Object.values(event.userNames || {})
-  const questionAnswers = Object.values(activeQuestion.answers || {})
+  const questionAnswers = Object.values(activeQuestion?.answers || {})
   const answeredPercentage = ((questionAnswers.length / participants.length || 0) * 100).toFixed(2)
 
   useEffect(() => {
@@ -136,15 +136,15 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
 
         <section className='flex flex-1 flex-col'>
           {event.state === 'ENDED' ? (
-            <div className='z-[2] mx-auto flex h-full w-full max-w-screen-lg flex-1 flex-col justify-center  '>
+            <div className='z-[2] mx-auto -mt-20 flex h-full w-full max-w-screen-lg flex-1 flex-col justify-center px-10 xl:px-0  '>
               <EventEndedContent />
             </div>
           ) : event.state === 'PRESTART' ? (
-            <div className='z-[2] mx-auto flex h-full w-full max-w-screen-lg flex-1 flex-col justify-center '>
+            <div className='z-[2] mx-auto -mt-20 flex h-full w-full max-w-screen-lg flex-1 flex-col justify-center px-10 xl:px-0 '>
               <WaitingEventStarted />
             </div>
           ) : activeQuestion.state === 'ENDED' ? (
-            <div className='z-[2] mx-auto flex h-full w-full max-w-screen-lg flex-1 flex-col justify-center  '>
+            <div className='z-[2] mx-auto -mt-20 flex h-full w-full max-w-screen-lg flex-1 flex-col justify-center  '>
               <PollResult activeQuestion={activeQuestion} />
             </div>
           ) : (

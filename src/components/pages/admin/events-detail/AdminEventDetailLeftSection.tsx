@@ -6,7 +6,11 @@ import clsxm from '@/lib/clsxm'
 import { useEventStore } from '@/lib/hooks/useEventStore'
 import { IQuestion } from '@/lib/types/types'
 
-export default function AdminEventDetailLeftSection() {
+type AdminEventDetailLeftSectionProps = {
+  setIsCreatingQuestion: (value: boolean) => void
+}
+
+export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: AdminEventDetailLeftSectionProps) {
   const {
     event,
     getQuestionAnsweredPercentage,
@@ -29,62 +33,74 @@ export default function AdminEventDetailLeftSection() {
     }
   )
 
+  const onCreateNewQuestion = () => {
+    setIsCreatingQuestion(true)
+  }
+
   return (
     <>
       <div>
         <div className='header flex flex-col flex-wrap justify-between space-y-3 md:flex-row md:items-center md:space-y-0'>
-          <div className='header-left flex items-center space-x-5'>
-            <div className='flex items-center space-x-2'>
-              {(event?.state === 'STARTED' || event?.state === 'ENDED') && (
-                <button
-                  onClick={() => mutationUpdateEventState.mutate({ state: 'PRESTART' })}
-                  className='flex items-center space-x-2 rounded-lg bg-green-800 py-2 px-3'
-                >
-                  <ArrowUturnLeftIcon className='h-5 w-5 text-white' />
-                </button>
-              )}
+          {event?.questions?.length ? (
+            <div className='header-left flex items-center space-x-5'>
+              <div className='flex items-center space-x-2'>
+                {(event?.state === 'STARTED' || event?.state === 'ENDED') && (
+                  <button
+                    onClick={() => mutationUpdateEventState.mutate({ state: 'PRESTART' })}
+                    className='flex items-center space-x-2 rounded-lg bg-green-800 py-2 px-3'
+                  >
+                    <ArrowUturnLeftIcon className='h-5 w-5 text-white' />
+                  </button>
+                )}
 
-              {event?.state === 'PRESTART' && (
-                <button
-                  onClick={() => mutationUpdateEventState.mutate({ state: 'STARTED' })}
-                  className='flex items-center space-x-2 rounded-lg bg-green-800 py-2 px-3'
-                >
-                  <PlayIcon className='h-5 w-5 text-white' />
-                  <span className='text-sm font-bold text-white'>Start Event</span>
-                </button>
-              )}
+                {event?.state === 'PRESTART' && (
+                  <button
+                    onClick={() => mutationUpdateEventState.mutate({ state: 'STARTED' })}
+                    className='flex items-center space-x-2 rounded-lg bg-green-800 py-2 px-3'
+                  >
+                    <PlayIcon className='h-5 w-5 text-white' />
+                    <span className='text-sm font-bold text-white'>Start Event</span>
+                  </button>
+                )}
 
+                {event?.state === 'STARTED' && (
+                  <button
+                    onClick={() => mutationUpdateEventState.mutate({ state: 'ENDED' })}
+                    className='flex items-center space-x-2 rounded-lg bg-rose-800 py-2 px-3'
+                  >
+                    <StopIcon className='h-5 w-5 text-white' />
+                    <span className='text-sm font-bold text-white'>Stop Event</span>
+                  </button>
+                )}
+              </div>
               {event?.state === 'STARTED' && (
-                <button
-                  onClick={() => mutationUpdateEventState.mutate({ state: 'ENDED' })}
-                  className='flex items-center space-x-2 rounded-lg bg-rose-800 py-2 px-3'
-                >
-                  <StopIcon className='h-5 w-5 text-white' />
-                  <span className='text-sm font-bold text-white'>Stop Event</span>
-                </button>
+                <div className='flex items-center space-x-2.5'>
+                  <div className='h-[6px] w-[6px] rounded-full bg-green-600'></div>
+                  <span className='text-xs font-semibold text-green-600'>Event Started</span>
+                </div>
+              )}
+              {event?.state === 'PRESTART' && (
+                <div className='flex items-center space-x-2.5'>
+                  <div className='h-[6px] w-[6px] rounded-full bg-gray-600'></div>
+                  <span className='text-xs font-semibold text-gray-600'>Event Not Started</span>
+                </div>
+              )}
+              {event?.state === 'ENDED' && (
+                <div className='flex items-center space-x-2.5'>
+                  <div className='h-[6px] w-[6px] rounded-full bg-red-600'></div>
+                  <span className='text-xs font-semibold text-red-600'>Event Ended</span>
+                </div>
               )}
             </div>
-            {event?.state === 'STARTED' && (
-              <div className='flex items-center space-x-2.5'>
-                <div className='h-[6px] w-[6px] rounded-full bg-green-600'></div>
-                <span className='text-xs font-semibold text-green-600'>Event Started</span>
-              </div>
-            )}
-            {event?.state === 'PRESTART' && (
-              <div className='flex items-center space-x-2.5'>
-                <div className='h-[6px] w-[6px] rounded-full bg-gray-600'></div>
-                <span className='text-xs font-semibold text-gray-600'>Event Not Started</span>
-              </div>
-            )}
-            {event?.state === 'ENDED' && (
-              <div className='flex items-center space-x-2.5'>
-                <div className='h-[6px] w-[6px] rounded-full bg-red-600'></div>
-                <span className='text-xs font-semibold text-red-600'>Event Ended</span>
-              </div>
-            )}
-          </div>
+          ) : (
+            <div></div>
+          )}
+
           <div className='header-right'>
-            <button className='flex items-center space-x-2 rounded-lg border border-dashed border-sky-200 py-2 px-2.5 font-semibold text-sky-700'>
+            <button
+              onClick={onCreateNewQuestion}
+              className='flex items-center space-x-2 rounded-lg border border-dashed border-sky-200 py-2 px-2.5 font-semibold text-sky-700'
+            >
               <PlusIcon className='h-6 w-6 text-sky-700' />
               <span className='text-sm'>Add new question</span>
             </button>
