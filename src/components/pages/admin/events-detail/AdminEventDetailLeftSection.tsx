@@ -120,8 +120,14 @@ export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: A
                   selectedQuestionKey === questionKey && 'ring-1 ring-sky-300 ',
                 ])}
               >
-                <button
+                <div
+                  tabIndex={0}
                   onClick={() => setSelectedQuestionKey(questionKey)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      setSelectedQuestionKey(questionKey)
+                    }
+                  }}
                   className={clsxm(
                     'its flex w-full flex-col justify-between space-y-3 rounded-lg border-2 py-3 px-4 md:flex-row md:items-start md:space-y-0',
                     activeQuestion?.id === question.id && 'border-sky-300 bg-sky-50'
@@ -172,7 +178,7 @@ export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: A
                       </button>
                     </div>
                   )}
-                </button>
+                </div>
               </li>
             ))}
           </ul>
