@@ -15,6 +15,8 @@ export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: A
     event,
     getQuestionAnsweredPercentage,
     computed: { participants, activeQuestion },
+    setSelectedQuestionKey,
+    selectedQuestionKey,
   } = useEventStore()
 
   const questions = (event?.questions || []) as IQuestion[]
@@ -110,16 +112,24 @@ export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: A
         <section className='mt-8'>
           <ul className='space-y-3'>
             {Object.entries(questions)?.map?.(([questionKey, question]) => (
-              <li key={question.id} data-sal='slide-up' className='question-item'>
-                <div
+              <li
+                key={question.id}
+                data-sal='slide-up'
+                className={clsxm([
+                  'question-item cursor-pointer rounded ring-slate-400 ring-offset-2 transition-all duration-150 hover:ring-2',
+                  selectedQuestionKey === questionKey && 'ring-1 ring-sky-300 ',
+                ])}
+              >
+                <button
+                  onClick={() => setSelectedQuestionKey(questionKey)}
                   className={clsxm(
-                    'flex flex-col justify-between space-y-3 rounded-lg border-2  py-3 px-4 md:flex-row md:items-start md:space-y-0',
+                    'its flex w-full flex-col justify-between space-y-3 rounded-lg border-2 py-3 px-4 md:flex-row md:items-start md:space-y-0',
                     activeQuestion?.id === question.id && 'border-sky-300 bg-sky-50'
                   )}
                 >
-                  <div>
-                    <h3 className='text-base font-semibold md:text-lg lg:mr-12'>{question.question}</h3>
-                    <span className='text-sm tracking-tight'>
+                  <div className='flex flex-col'>
+                    <h3 className='text-left text-base font-semibold md:text-lg lg:mr-12'>{question.question}</h3>
+                    <span className='text-left text-sm tracking-tight'>
                       Voters: {getQuestionAnsweredPercentage(question)}/{participants.length}
                     </span>
                   </div>
@@ -162,7 +172,7 @@ export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: A
                       </button>
                     </div>
                   )}
-                </div>
+                </button>
               </li>
             ))}
           </ul>

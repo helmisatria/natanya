@@ -39,7 +39,7 @@ export default async function answerQuestion(req: NextApiRequest, res: NextApiRe
   const activeQuestion = event.questions[event.activeQuestionKey]
 
   const isEventStarted = event.state === 'STARTED'
-  const isQuestionStarted = activeQuestion.state === 'STARTED'
+  const isQuestionStarted = activeQuestion?.state === 'STARTED'
 
   if (!isEventStarted || !isQuestionStarted) {
     return res.status(400).json({ message: 'Event/Question not started' })

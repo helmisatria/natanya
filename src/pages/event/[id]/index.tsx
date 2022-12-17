@@ -143,7 +143,7 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
             <div className='z-[2] mx-auto -mt-20 flex h-full w-full max-w-screen-lg flex-1 flex-col justify-center px-10 xl:px-0 '>
               <WaitingEventStarted />
             </div>
-          ) : activeQuestion.state === 'ENDED' ? (
+          ) : activeQuestion?.state === 'ENDED' ? (
             <div className='z-[2] mx-auto -mt-20 flex h-full w-full max-w-screen-lg flex-1 flex-col justify-center  '>
               <PollResult activeQuestion={activeQuestion} />
             </div>
@@ -161,14 +161,14 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
                     data-sal='slide-up'
                     className='text-center text-3xl text-gray-800 lg:max-w-[80%] lg:text-4xl xl:max-w-[70%] xl:text-5xl'
                   >
-                    {activeQuestion.question}
+                    {activeQuestion?.question}
                   </Title>
                   <p data-sal='slide-up' data-sal-delay='150' className='mt-2 text-sm text-slate-600 sm:text-base'>
                     Please choose one of the answer
                   </p>
                 </div>
 
-                {activeQuestion.state === 'PRESTART' && (
+                {activeQuestion?.state === 'PRESTART' && (
                   <div
                     data-sal='slide-up'
                     data-sal-delay='300'
@@ -187,7 +187,7 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
                   </div>
                 )}
 
-                {activeQuestion.state === 'STARTED' && (
+                {activeQuestion?.state === 'STARTED' && (
                   <div className='mt-12 flex'>
                     <form
                       onSubmit={handleSubmit}
@@ -238,7 +238,7 @@ export default function HomePage({ event: propsEvent, user }: { event: IEvent; u
             >
               <div className='flex flex-wrap justify-center space-x-2 px-5 py-6 text-xs text-slate-500 sm:text-sm'>
                 <p>People joined: {participants.length}</p>
-                {activeQuestion.state === 'STARTED' && (
+                {activeQuestion?.state === 'STARTED' && (
                   <>
                     <span className=''>•</span>
                     <p>

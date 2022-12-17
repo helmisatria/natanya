@@ -1,5 +1,3 @@
-import { nanoid } from 'nanoid'
-
 import { adminDb } from '@/lib/firebase/firebase-admin'
 
 export const adminCreateNewQuestion = async (eventId: string, questions: string) => {
@@ -12,7 +10,7 @@ export const adminCreateNewQuestion = async (eventId: string, questions: string)
       return {
         ...prev,
         [newQuestionKey]: {
-          id: nanoid(),
+          id: newQuestionKey,
           question: question,
           answers: {},
           state: 'PRESTART',
