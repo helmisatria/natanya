@@ -1,3 +1,4 @@
+import { PlusIcon } from '@heroicons/react/24/outline'
 import { ChevronLeftIcon } from '@heroicons/react/24/solid'
 import { useQuery } from '@tanstack/react-query'
 import { onValue, ref } from 'firebase/database'
@@ -12,6 +13,7 @@ import { useEventStore } from '@/lib/hooks/useEventStore'
 
 import AdminLayout from '@/components/layout/AdminLayout'
 import AdminEventDetailLeftSection from '@/components/pages/admin/events-detail/AdminEventDetailLeftSection'
+import DialogCreateNewOption from '@/components/pages/admin/events-detail/DialogCreateNewOption'
 import DialogCreateNewQuestion from '@/components/pages/admin/events-detail/DialogCreateNewQuestion'
 import { OnlyPollingResult } from '@/components/PollResult'
 import Seo from '@/components/Seo'
@@ -33,14 +35,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 export default function EventDetailPage() {
   const [isCreatingQuestion, setIsCreatingQuestion] = useState(false)
+  const [isCreatingOption, setIsCreatingOption] = useState(false)
 
   const { query } = useRouter()
 
   const {
     event,
     setEvent,
-    computed: { activeQuestion },
+    selectedQuestionKey,
+    computed: { activeQuestion, selectedQuestion },
   } = useEventStore()
+
+  const displayPollingResultQuestion = selectedQuestionKey ? selectedQuestion : activeQuestion
 
   const { refetch } = useQuery({
     queryKey: ['event', query?.id],
@@ -57,6 +63,13 @@ export default function EventDetailPage() {
   return (
     <AdminLayout>
       <Seo title={`Natanya - ${event?.name}`} />
+
+      <DialogCreateNewOption
+        open={isCreatingOption}
+        onClose={() => setIsCreatingOption(false)}
+        onSuccess={refetch}
+        questionId={activeQuestion?.id || ''}
+      />
 
       <DialogCreateNewQuestion
         open={isCreatingQuestion}
@@ -88,14 +101,25 @@ export default function EventDetailPage() {
             <AdminEventDetailLeftSection setIsCreatingQuestion={setIsCreatingQuestion} />
           </div>
           <div className='flex-1 rounded-lg bg-white shadow'>
-            <div className='border-b border-sky-400 p-8'>
-              <h2 className='text-2xl font-semibold'>{activeQuestion?.question}</h2>
+            <div className='border-b border-sky-600 p-8'>
+              <h2 className='text-2xl font-semibold'>{displayPollingResultQuestion?.question}</h2>
             </div>
+
             {activeQuestion && (
               <div className='mt-2 space-y-4 p-8'>
                 <OnlyPollingResult activeQuestion={activeQuestion} />
               </div>
             )}
+
+            <div className='m-6'>
+              <button
+                onClick={() => setIsCreatingOption(true)}
+                className='flex items-center space-x-2 rounded-lg border border-dashed border-sky-200 py-2 px-2.5 font-semibold text-sky-700'
+              >
+                <PlusIcon className='h-6 w-6 text-sky-700' />
+                <span className='text-sm'>Add new options</span>
+              </button>
+            </div>
           </div>
         </div>
       </main>

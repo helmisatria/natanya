@@ -15,6 +15,8 @@ export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: A
     event,
     getQuestionAnsweredPercentage,
     computed: { participants, activeQuestion },
+    setSelectedQuestionKey,
+    selectedQuestionKey,
   } = useEventStore()
 
   const questions = (event?.questions || []) as IQuestion[]
@@ -41,7 +43,7 @@ export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: A
     <>
       <div>
         <div className='header flex flex-col flex-wrap justify-between space-y-3 md:flex-row md:items-center md:space-y-0'>
-          {event?.questions?.length ? (
+          {event?.questions ? (
             <div className='header-left flex items-center space-x-5'>
               <div className='flex items-center space-x-2'>
                 {(event?.state === 'STARTED' || event?.state === 'ENDED') && (
@@ -109,56 +111,73 @@ export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: A
 
         <section className='mt-8'>
           <ul className='space-y-3'>
-            {questions?.map?.((question, index) => (
-              <li key={question.id} data-sal='slide-up' className='question-item'>
+            {Object.entries(questions)?.map?.(([questionKey, question]) => (
+              <li
+                key={question.id}
+                data-sal='slide-up'
+                className={clsxm([
+                  'question-item cursor-pointer rounded ring-slate-400 ring-offset-2 transition-all duration-150 hover:ring-2',
+                  selectedQuestionKey === questionKey && 'ring-1 ring-sky-300 ',
+                ])}
+              >
                 <div
+                  tabIndex={0}
+                  onClick={() => setSelectedQuestionKey(questionKey)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      setSelectedQuestionKey(questionKey)
+                    }
+                  }}
                   className={clsxm(
-                    'flex flex-col justify-between space-y-3 rounded-lg border-2  py-3 px-4 md:flex-row md:items-start md:space-y-0',
+                    'its flex w-full flex-col justify-between space-y-3 rounded-lg border-2 py-3 px-4 md:flex-row md:items-start md:space-y-0',
                     activeQuestion?.id === question.id && 'border-sky-300 bg-sky-50'
                   )}
                 >
-                  <div>
-                    <h3 className='text-base font-semibold md:text-lg lg:mr-12'>{question.question}</h3>
-                    <span className='text-sm tracking-tight'>
+                  <div className='flex flex-col'>
+                    <h3 className='text-left text-base font-semibold md:text-lg lg:mr-12'>{question.question}</h3>
+                    <span className='text-left text-sm tracking-tight'>
                       Voters: {getQuestionAnsweredPercentage(question)}/{participants.length}
                     </span>
                   </div>
-                  <div className='flex space-x-2'>
-                    <button
-                      disabled={question.state === 'STARTED' && question.id === activeQuestion?.id}
-                      onClick={() =>
-                        mutationUpdateQuestionState.mutate({
-                          questionKey: String(index),
-                          state: 'STARTED',
-                        })
-                      }
-                      className={clsxm(
-                        'rounded-full border-2 border-green-600 bg-green-100 p-2',
-                        question.state === 'STARTED' && question.id === activeQuestion?.id
-                          ? 'opacity-50'
-                          : 'hover:shadow-md'
-                      )}
-                    >
-                      <PlayIcon className='h-4 w-4 text-green-600 md:h-5 md:w-5' />
-                    </button>
-                    <button
-                      disabled={question.state === 'ENDED' || question.id !== activeQuestion?.id}
-                      onClick={() =>
-                        mutationUpdateQuestionState.mutate({
-                          questionKey: String(index),
-                          state: 'ENDED',
-                        })
-                      }
-                      className={clsxm(
-                        'rounded-full border-2 border-pink-600 bg-pink-50 p-2',
-                        question.state === 'ENDED' || question.id !== activeQuestion?.id
-                          ? 'opacity-50'
-                          : 'hover:shadow-md'
-                      )}
-                    >
-                      <StopIcon className='h-4 w-4 text-pink-600 md:h-5 md:w-5' />
-                    </button>
-                  </div>
+
+                  {question.options && (
+                    <div className='flex space-x-2'>
+                      <button
+                        disabled={question.state === 'STARTED' && question.id === activeQuestion?.id}
+                        onClick={() =>
+                          mutationUpdateQuestionState.mutate({
+                            questionKey,
+                            state: 'STARTED',
+                          })
+                        }
+                        className={clsxm(
+                          'rounded-full border-2 border-green-600 bg-green-100 p-2',
+                          question.state === 'STARTED' && question.id === activeQuestion?.id
+                            ? 'opacity-50'
+                            : 'hover:shadow-md'
+                        )}
+                      >
+                        <PlayIcon className='h-4 w-4 text-green-600 md:h-5 md:w-5' />
+                      </button>
+                      <button
+                        disabled={question.state === 'ENDED' || question.id !== activeQuestion?.id}
+                        onClick={() =>
+                          mutationUpdateQuestionState.mutate({
+                            questionKey,
+                            state: 'ENDED',
+                          })
+                        }
+                        className={clsxm(
+                          'rounded-full border-2 border-pink-600 bg-pink-50 p-2',
+                          question.state === 'ENDED' || question.id !== activeQuestion?.id
+                            ? 'opacity-50'
+                            : 'hover:shadow-md'
+                        )}
+                      >
+                        <StopIcon className='h-4 w-4 text-pink-600 md:h-5 md:w-5' />
+                      </button>
+                    </div>
+                  )}
                 </div>
               </li>
             ))}

@@ -6,22 +6,28 @@ import { useRouter } from 'next/router'
 import { Fragment, useEffect, useState } from 'react'
 
 import { notify } from '@/lib/helper'
+import { useEventStore } from '@/lib/hooks/useEventStore'
 
-type DialogCreateNewQuestionProps = {
+type DialogCreateNewOptionProps = {
   open: boolean
   onClose?: () => void
   onSuccess?: () => void
+  questionId: string
 }
 
-export default function DialogCreateNewQuestion({
+export default function DialogCreateNewOption({
   open: openProps,
   onClose: onCloseProps,
   onSuccess: onSuccessProps,
-}: DialogCreateNewQuestionProps) {
+}: DialogCreateNewOptionProps) {
   const [open, setOpen] = useState(false)
   const { query } = useRouter()
 
   const queryClient = useQueryClient()
+
+  const {
+    computed: { selectedQuestion },
+  } = useEventStore()
 
   useEffect(() => {
     setOpen(openProps)
@@ -33,9 +39,9 @@ export default function DialogCreateNewQuestion({
   }
 
   const mutation = useMutation(
-    ({ questions }: { questions: string }) => {
-      const address = `/api/admin/events/${query.id}/questions`
-      return axios.post(address, { questions })
+    ({ options }: { options: string }) => {
+      const address = `/api/admin/events/${query.id}/questions/${selectedQuestion?.id}/options`
+      return axios.post(address, { options, questionId: selectedQuestion?.id })
     },
     {
       onError: (err) => {
@@ -43,10 +49,10 @@ export default function DialogCreateNewQuestion({
         notify.error(error?.response?.data?.message ?? 'Unknown error')
       },
       onSuccess: () => {
-        notify.success('Question created successfully')
+        notify.success('Options created successfully')
         onClose()
         onSuccessProps?.()
-        queryClient.invalidateQueries(['questions'])
+        queryClient.invalidateQueries(['options'])
       },
     }
   )
@@ -57,7 +63,7 @@ export default function DialogCreateNewQuestion({
 
     const data = new FormData(e.currentTarget)
 
-    mutation.mutate({ questions: data.get('new-questions') as string })
+    mutation.mutate({ options: data.get('new-options') as string })
   }
 
   return (
@@ -95,7 +101,7 @@ export default function DialogCreateNewQuestion({
                     <div className='h-0 flex-1 overflow-y-auto'>
                       <div className='bg-sky-700 py-6 px-4 sm:px-6'>
                         <div className='flex items-center justify-between'>
-                          <Dialog.Title className='text-lg font-medium text-white'>New Question</Dialog.Title>
+                          <Dialog.Title className='text-lg font-medium text-white'>New Options</Dialog.Title>
                           <div className='ml-3 flex h-7 items-center'>
                             <button
                               type='button'
@@ -109,7 +115,7 @@ export default function DialogCreateNewQuestion({
                         </div>
                         <div className='mt-1'>
                           <p className='text-sm text-sky-300'>
-                            Get started by filling in the information below to create your new question.
+                            Get started by filling in the information below to create your new options.
                           </p>
                         </div>
                       </div>
@@ -117,13 +123,13 @@ export default function DialogCreateNewQuestion({
                         <div className='divide-y divide-gray-200 px-4 sm:px-6'>
                           <div className='space-y-6 pt-6 pb-5'>
                             <div>
-                              <label htmlFor='new-questions' className='block text-sm font-medium text-gray-900'>
-                                New Questions
+                              <label htmlFor='new-options' className='block text-sm font-medium text-gray-900'>
+                                New options
                               </label>
                               <div className='mt-1'>
                                 <textarea
-                                  id='new-questions'
-                                  name='new-questions'
+                                  id='new-options'
+                                  name='new-options'
                                   rows={10}
                                   className='block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm'
                                   defaultValue=''

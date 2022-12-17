@@ -3,9 +3,9 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { unstable_getServerSession } from 'next-auth'
 
 import { nextAuthOptions } from '@/pages/api/auth/[...nextauth]'
-import { adminCreateNewQuestion } from '@/server/questions/question'
+import { adminCreateNewOption } from '@/server/options/option'
 
-export default async function routeCreateQuestion(req: NextApiRequest, res: NextApiResponse) {
+export default async function routeCreateOption(req: NextApiRequest, res: NextApiResponse) {
   const session = await unstable_getServerSession(req, res, nextAuthOptions)
   if (!session) {
     return res.status(401).json({ message: 'Not authenticated' })
@@ -17,7 +17,16 @@ export default async function routeCreateQuestion(req: NextApiRequest, res: Next
 
   const body = req.body
 
-  const result = await adminCreateNewQuestion(req.query.id as string, body.questions)
+  const mapOptions = (body.options as string)
+    .split('\n')
+    .filter((v) => v)
+    .map((option) => option.trim())
+
+  const result = await adminCreateNewOption({
+    eventId: req.query.id as string,
+    questionId: req.query.question_id as string,
+    options: mapOptions,
+  })
 
   if (!result) {
     return res.status(500).json({ message: 'Error creating new question' })

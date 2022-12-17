@@ -1,6 +1,7 @@
 import { Title } from '@mantine/core'
 import sortBy from 'lodash/sortBy'
 
+import { useEventStore } from '@/lib/hooks/useEventStore'
 import { IQuestion } from '@/lib/types/types'
 
 type PollResultProps = {
@@ -8,12 +9,19 @@ type PollResultProps = {
 }
 
 export default function PollResult({ activeQuestion }: PollResultProps) {
+  const {
+    selectedQuestionKey,
+    computed: { selectedQuestion },
+  } = useEventStore()
+
+  const displayPollingResult = selectedQuestionKey ? selectedQuestion : activeQuestion
+
   return (
     <div>
       <section className='sticky top-0 border-b px-5 py-7 sm:px-8'>
         <div data-sal='slide-up' data-sal-delay='0'>
           <p className='font-bold text-slate-800 underline'>Polling Result</p>
-          <Title className='mt-2 text-4xl'>{activeQuestion.question}</Title>
+          <Title className='mt-2 text-4xl'>{displayPollingResult?.question}</Title>
         </div>
       </section>
 
@@ -25,8 +33,18 @@ export default function PollResult({ activeQuestion }: PollResultProps) {
 }
 
 export const OnlyPollingResult = ({ activeQuestion }: PollResultProps) => {
-  const totalQuestionAnswer = Object.values(activeQuestion.answers || {})?.length || 0
-  const answers = Object.entries(activeQuestion.answers || {}).reduce((prev, current) => {
+  const {
+    event,
+    selectedQuestionKey,
+    computed: { selectedQuestion },
+  } = useEventStore()
+
+  const displayPollingResult = selectedQuestionKey ? selectedQuestion : activeQuestion
+
+  const allOptions = (event?.questions?.[displayPollingResult?.id ?? ''] || {}).options || []
+  const templateOptions = allOptions.reduce((prev, option) => ({ ...prev, [option]: 0 }), {} as Record<string, number>)
+
+  const answers = Object.entries(displayPollingResult?.answers || {}).reduce((prev, current) => {
     const [, answers] = current
 
     const answer = answers[0] as unknown as string
@@ -36,7 +54,9 @@ export const OnlyPollingResult = ({ activeQuestion }: PollResultProps) => {
       ...prev,
       [answer]: total,
     }
-  }, {} as { [key: string]: number })
+  }, templateOptions)
+
+  const totalQuestionAnswer = Object.values(displayPollingResult?.answers || {})?.length || 0
 
   const sortedAnswers = sortBy(Object.entries(answers), ([, total]) => total).reverse()
 
@@ -55,10 +75,10 @@ export const OnlyPollingResult = ({ activeQuestion }: PollResultProps) => {
               className={`progress h-2 rounded-xl bg-sky-500 transition-all duration-150 md:h-3 ${
                 index === 0 && 'bg-sky-900'
               }`}
-              style={{ width: `${(totalAnswer / totalQuestionAnswer) * 100}%` }}
+              style={{ width: `${(totalAnswer / (totalQuestionAnswer || 1)) * 100}%` }}
             ></div>
             <span className='flex items-center text-lg font-semibold md:text-xl'>
-              {((totalAnswer / totalQuestionAnswer) * 100).toFixed(2)}%
+              {((totalAnswer / (totalQuestionAnswer || 1)) * 100).toFixed(2)}%
               <span className='ml-2 whitespace-nowrap text-sm'>({totalAnswer} Voters)</span>
             </span>
           </div>
