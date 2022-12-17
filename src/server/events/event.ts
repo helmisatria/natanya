@@ -54,7 +54,7 @@ export const adminCreateNewEvent = async (event: z.infer<typeof createNewEventSc
     throw new Error('Event name is already taken')
   }
 
-  return adminDb.ref(`events/${name}`).set(newEvent)
+  return adminDb.ref(`events/${formattedName}`).set(newEvent)
 }
 
 export const adminGetEventDetail = async (key: string) => {

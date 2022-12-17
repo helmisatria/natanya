@@ -6,7 +6,7 @@ export interface IQuestion {
   correctAnswers: string[]
   id: string
   options: string[]
-  order: string
+  order: number
   question: string
   answers: IAnswer | '' | undefined
   state: 'PRESTART' | 'STARTED' | 'ENDED'
