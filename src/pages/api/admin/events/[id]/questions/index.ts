@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { nanoid } from 'nanoid'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { unstable_getServerSession } from 'next-auth'
 
@@ -18,15 +17,7 @@ export default async function routeCreateQuestion(req: NextApiRequest, res: Next
 
   const body = req.body
 
-  const result = await adminCreateNewQuestion(req.query.id as string, {
-    id: nanoid(),
-    question: body.questions,
-    answers: {},
-    state: 'PRESTART',
-    correctAnswers: [],
-    options: [],
-    order: 0,
-  })
+  const result = await adminCreateNewQuestion(req.query.id as string, body.questions)
 
   if (!result) {
     return res.status(500).json({ message: 'Error creating new question' })
