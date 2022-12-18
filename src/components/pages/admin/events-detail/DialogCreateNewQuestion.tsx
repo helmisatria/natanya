@@ -46,7 +46,7 @@ export default function DialogCreateNewQuestion({
         notify.success('Question created successfully')
         onClose()
         onSuccessProps?.()
-        queryClient.invalidateQueries(['questions'])
+        queryClient.invalidateQueries(['event', query.id])
       },
     }
   )

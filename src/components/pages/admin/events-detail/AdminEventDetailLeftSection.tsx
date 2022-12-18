@@ -14,9 +14,8 @@ export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: A
   const {
     event,
     getQuestionAnsweredPercentage,
-    computed: { participants, activeQuestion },
+    computed: { participants, activeQuestion, selectedQuestion },
     setSelectedQuestionKey,
-    selectedQuestionKey,
   } = useEventStore()
 
   const questions = (event?.questions || []) as IQuestion[]
@@ -117,7 +116,7 @@ export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: A
                 data-sal='slide-up'
                 className={clsxm([
                   'question-item cursor-pointer rounded ring-slate-400 ring-offset-2 transition-all duration-150 hover:ring-2',
-                  selectedQuestionKey === questionKey && 'ring-1 ring-sky-300 ',
+                  selectedQuestion?.id === questionKey && 'ring-1 ring-sky-300 ',
                 ])}
               >
                 <div

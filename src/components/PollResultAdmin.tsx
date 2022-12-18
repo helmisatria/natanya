@@ -1,17 +1,12 @@
 import sortBy from 'lodash/sortBy'
 
 import { useEventStore } from '@/lib/hooks/useEventStore'
-import { IQuestion } from '@/lib/types/types'
 
-type PollResultProps = {
-  activeQuestion: IQuestion
-}
-
-export const AdminOnlyPollingResult = ({ activeQuestion }: PollResultProps) => {
+export const AdminOnlyPollingResult = () => {
   const {
     event,
     selectedQuestionKey,
-    computed: { selectedQuestion },
+    computed: { selectedQuestion, activeQuestion },
   } = useEventStore()
 
   const displayPollingResult = selectedQuestionKey ? selectedQuestion : activeQuestion
