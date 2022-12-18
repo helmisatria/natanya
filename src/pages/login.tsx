@@ -52,7 +52,7 @@ export default function LoginPage() {
               data-sal='slide-up'
               className='mt-[10px] text-[2rem] font-bold leading-[120%] tracking-tight text-gray-900 sm:mt-3 sm:text-7xl'
             >
-              Manage your survey <br /> <span className='underline'>without paying</span>
+              Manage your survey <br /> <span className='underline'>with free</span>
             </Title>
 
             <div data-sal='slide-up' className='flex'>
