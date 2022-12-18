@@ -32,19 +32,20 @@ export default function PollResult({ activeQuestion }: PollResultProps) {
   )
 }
 
+const getProgressBarLength = (totalAnswer: number, totalQuestionAnswer: number) => {
+  const result = totalAnswer / (totalQuestionAnswer || 1)
+  if (result === 0) {
+    return 1
+  }
+
+  return result * 100
+}
+
 export const OnlyPollingResult = ({ activeQuestion }: PollResultProps) => {
-  const {
-    event,
-    selectedQuestionKey,
-    computed: { selectedQuestion },
-  } = useEventStore()
-
-  const displayPollingResult = selectedQuestionKey ? selectedQuestion : activeQuestion
-
-  const allOptions = (event?.questions?.[displayPollingResult?.id ?? ''] || {}).options || []
+  const allOptions = activeQuestion.options || []
   const templateOptions = allOptions.reduce((prev, option) => ({ ...prev, [option]: 0 }), {} as Record<string, number>)
 
-  const answers = Object.entries(displayPollingResult?.answers || {}).reduce((prev, current) => {
+  const answers = Object.entries(activeQuestion?.answers || {}).reduce((prev, current) => {
     const [, answers] = current
 
     const answer = answers[0] as unknown as string
@@ -56,7 +57,7 @@ export const OnlyPollingResult = ({ activeQuestion }: PollResultProps) => {
     }
   }, templateOptions)
 
-  const totalQuestionAnswer = Object.values(displayPollingResult?.answers || {})?.length || 0
+  const totalQuestionAnswer = Object.values(activeQuestion?.answers || {})?.length || 0
 
   const sortedAnswers = sortBy(Object.entries(answers), ([, total]) => total).reverse()
 
@@ -75,7 +76,7 @@ export const OnlyPollingResult = ({ activeQuestion }: PollResultProps) => {
               className={`progress h-2 rounded-xl bg-sky-500 transition-all duration-150 md:h-3 ${
                 index === 0 && 'bg-sky-900'
               }`}
-              style={{ width: `${(totalAnswer / (totalQuestionAnswer || 1)) * 100}%` }}
+              style={{ width: `${getProgressBarLength(totalAnswer, totalQuestionAnswer)}%` }}
             ></div>
             <span className='flex items-center text-lg font-semibold md:text-xl'>
               {((totalAnswer / (totalQuestionAnswer || 1)) * 100).toFixed(2)}%
