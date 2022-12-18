@@ -15,7 +15,7 @@ import AdminLayout from '@/components/layout/AdminLayout'
 import AdminEventDetailLeftSection from '@/components/pages/admin/events-detail/AdminEventDetailLeftSection'
 import DialogCreateNewOption from '@/components/pages/admin/events-detail/DialogCreateNewOption'
 import DialogCreateNewQuestion from '@/components/pages/admin/events-detail/DialogCreateNewQuestion'
-import { OnlyPollingResult } from '@/components/PollResult'
+import { AdminOnlyPollingResult } from '@/components/PollResultAdmin'
 import Seo from '@/components/Seo'
 
 import { nextAuthOptions } from '@/pages/api/auth/[...nextauth]'
@@ -107,7 +107,7 @@ export default function EventDetailPage() {
 
             {activeQuestion && (
               <div className='mt-2 space-y-4 p-8'>
-                <OnlyPollingResult activeQuestion={activeQuestion} />
+                <AdminOnlyPollingResult activeQuestion={activeQuestion} />
               </div>
             )}
 
