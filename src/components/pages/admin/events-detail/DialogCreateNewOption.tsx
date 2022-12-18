@@ -52,7 +52,7 @@ export default function DialogCreateNewOption({
         notify.success('Options created successfully')
         onClose()
         onSuccessProps?.()
-        queryClient.invalidateQueries(['options'])
+        queryClient.invalidateQueries(['event', query.id])
       },
     }
   )

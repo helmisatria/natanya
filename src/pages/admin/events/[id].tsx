@@ -46,7 +46,7 @@ export default function EventDetailPage() {
     computed: { activeQuestion, selectedQuestion },
   } = useEventStore()
 
-  const displayPollingResultQuestion = selectedQuestionKey ? selectedQuestion : activeQuestion
+  const displayPollingResultQuestion = selectedQuestionKey ? selectedQuestion : activeQuestion ?? selectedQuestion
 
   const { refetch } = useQuery({
     queryKey: ['event', query?.id],
@@ -105,9 +105,9 @@ export default function EventDetailPage() {
               <h2 className='text-2xl font-semibold'>{displayPollingResultQuestion?.question}</h2>
             </div>
 
-            {activeQuestion && (
+            {displayPollingResultQuestion && (
               <div className='mt-2 space-y-4 p-8'>
-                <AdminOnlyPollingResult activeQuestion={activeQuestion} />
+                <AdminOnlyPollingResult />
               </div>
             )}
 

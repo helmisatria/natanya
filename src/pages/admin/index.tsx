@@ -66,8 +66,11 @@ export default function AppPage() {
           <ul className='space-y-3 p-4 sm:p-8'>
             {events.map((event) => (
               <li key={event.id} data-sal='slide-up'>
-                <Link href={`/admin/events/${event.key}`}>
-                  <a className='flex w-full flex-col items-start rounded border bg-white py-4 px-7 text-xl shadow sm:flex-row sm:space-x-3'>
+                <Link href={`/admin/events/${event.key}`} passHref>
+                  <a
+                    href={`/admin/events/${event.key}`}
+                    className='flex w-full flex-col items-start rounded border bg-white py-4 px-7 text-xl shadow sm:flex-row sm:space-x-3'
+                  >
                     <span className='text-xl font-semibold'>{event.name}</span>{' '}
                     <span className='font-semibold text-slate-600'>#{event.code}</span>
                   </a>

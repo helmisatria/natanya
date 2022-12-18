@@ -11,7 +11,7 @@ export const adminCreateNewQuestion = async (eventId: string, questions: string)
         ...prev,
         [newQuestionKey]: {
           id: newQuestionKey,
-          question: question,
+          question: question.trim(),
           answers: {},
           state: 'PRESTART',
           correctAnswers: [],
