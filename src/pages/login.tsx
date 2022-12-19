@@ -62,7 +62,10 @@ export default function LoginPage() {
             </div>
 
             <div data-sal='slide-up' data-sal-delay='200' className='mt-12 flex sm:mt-24'>
-              <button onClick={onLogin} className='flex w-[20rem] items-center rounded-lg bg-gray-900 p-3'>
+              <button
+                onClick={onLogin}
+                className='flex w-[20rem] items-center rounded-lg bg-gray-900 p-3 ring-offset-2 hover:ring-2 focus:ring-2'
+              >
                 <div className='rounded-md bg-white p-1'>
                   <svg
                     className='h-[32px] w-[32px]'
