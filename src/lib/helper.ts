@@ -23,6 +23,10 @@ export function openGraph({
   }`
 }
 
+export const getEventKey = (name: string) => {
+  return name.toLowerCase().replace(/\s/g, '-')
+}
+
 export const redirectTo = (path: string) => {
   return {
     redirect: {
