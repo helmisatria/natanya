@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { unstable_getServerSession } from 'next-auth'
 import { useState } from 'react'
 
+import { getEventKey } from '@/lib/helper'
 import { IEvent } from '@/lib/types/types'
 
 import AdminLayout from '@/components/layout/AdminLayout'
@@ -45,7 +46,7 @@ export default function AppPage() {
 
       <DialogCreateEvent open={isCreatingEvent} onClose={() => setIsCreatingEvent(false)} onSuccess={() => refetch()} />
 
-      <header className='bg-sky-900 pt-[3rem] pb-[18rem] shadow sm:pt-[5.4rem]'>
+      <header className='bg-sky-900 bg-gradient-to-b from-sky-900 to-sky-800 pt-[3rem] pb-[18rem] shadow sm:pt-[5.4rem]'>
         <div className='mx-auto flex max-w-7xl items-center justify-between px-5'>
           <h1 data-sal='fade' className='text-2xl font-bold text-white sm:text-4xl'>
             Polling Events
@@ -53,7 +54,7 @@ export default function AppPage() {
 
           <button
             onClick={() => setIsCreatingEvent(true)}
-            className='flex items-center space-x-2.5 rounded-lg border-2 border-sky-700 bg-sky-800 py-2 px-4 shadow hover:bg-sky-700 sm:px-6 sm:py-3'
+            className='flex items-center space-x-2.5 rounded-lg border-2 border-sky-700 bg-sky-800 py-2 px-4 shadow ring-offset-2 hover:bg-sky-700 hover:ring-2 focus:ring-2 sm:px-6 sm:py-3'
           >
             <PlusIcon className='h-6 w-6 text-white' />
             <span className='font-semibold text-white'>New Event</span>
@@ -69,10 +70,12 @@ export default function AppPage() {
                 <Link href={`/admin/events/${event.key}`} passHref>
                   <a
                     href={`/admin/events/${event.key}`}
-                    className='flex w-full flex-col items-start rounded border bg-white py-4 px-7 text-xl shadow sm:flex-row sm:space-x-3'
+                    className='flex w-full flex-col items-end rounded border bg-white py-4 px-7 text-xl shadow hover:ring-2 sm:flex-row sm:space-x-3'
                   >
                     <span className='text-xl font-semibold'>{event.name}</span>{' '}
-                    <span className='font-semibold text-slate-600'>#{event.code}</span>
+                    <span className='text-base font-semibold text-sky-700 text-opacity-60'>
+                      #{getEventKey(event.name)}
+                    </span>
                   </a>
                 </Link>
               </li>

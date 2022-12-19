@@ -13,16 +13,18 @@ export default function Navbar() {
     <nav className='bg-sky-900'>
       <div className='mx-auto flex max-w-7xl items-center justify-between border-b border-sky-800 bg-sky-900 py-4 px-5'>
         <ul className='flex items-center'>
-          <li className='rounded-lg bg-white py-1 px-2 font-semibold'>
+          <li className=' font-semibold'>
             <Link href='/admin'>
-              <a>Dashboard</a>
+              <a className='rounded-lg bg-white py-2 px-3 ring-offset-2 transition-all duration-100 hover:ring-2 focus:ring-2'>
+                Dashboard
+              </a>
             </Link>
           </li>
         </ul>
 
         <Menu as='div' className='relative inline-block py-1 text-left'>
           <div>
-            <Menu.Button className=''>
+            <Menu.Button className='h-10 w-10 rounded-full ring-offset-2 transition-all duration-100 hover:ring-2 focus:ring-2'>
               <Image
                 className='rounded-full object-cover'
                 width={40}

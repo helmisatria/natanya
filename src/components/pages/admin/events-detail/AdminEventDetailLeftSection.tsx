@@ -48,7 +48,7 @@ export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: A
                 {(event?.state === 'STARTED' || event?.state === 'ENDED') && (
                   <button
                     onClick={() => mutationUpdateEventState.mutate({ state: 'PRESTART' })}
-                    className='flex items-center space-x-2 rounded-lg bg-green-800 py-2 px-3'
+                    className='flex items-center space-x-2 rounded-lg bg-green-800 py-2 px-3 ring-offset-2 hover:ring-2 focus:ring-2'
                   >
                     <ArrowUturnLeftIcon className='h-5 w-5 text-white' />
                   </button>
@@ -57,7 +57,7 @@ export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: A
                 {event?.state === 'PRESTART' && (
                   <button
                     onClick={() => mutationUpdateEventState.mutate({ state: 'STARTED' })}
-                    className='flex items-center space-x-2 rounded-lg bg-green-800 py-2 px-3'
+                    className='flex items-center space-x-2 rounded-lg bg-green-800 py-2 px-3 ring-offset-2 hover:ring-2 focus:ring-2'
                   >
                     <PlayIcon className='h-5 w-5 text-white' />
                     <span className='text-sm font-bold text-white'>Start Event</span>
@@ -67,7 +67,7 @@ export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: A
                 {event?.state === 'STARTED' && (
                   <button
                     onClick={() => mutationUpdateEventState.mutate({ state: 'ENDED' })}
-                    className='flex items-center space-x-2 rounded-lg bg-rose-800 py-2 px-3'
+                    className='flex items-center space-x-2 rounded-lg bg-rose-800 py-2 px-3 ring-offset-2 hover:ring-2 focus:ring-2'
                   >
                     <StopIcon className='h-5 w-5 text-white' />
                     <span className='text-sm font-bold text-white'>Stop Event</span>
@@ -100,7 +100,7 @@ export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: A
           <div className='header-right'>
             <button
               onClick={onCreateNewQuestion}
-              className='flex items-center space-x-2 rounded-lg border border-dashed border-sky-200 py-2 px-2.5 font-semibold text-sky-700'
+              className='flex items-center space-x-2 rounded-lg border border-dashed border-sky-200 py-2 px-2.5 font-semibold text-sky-700 ring-offset-2 hover:ring-2 focus:ring-2'
             >
               <PlusIcon className='h-6 w-6 text-sky-700' />
               <span className='text-sm'>Add new question</span>
@@ -153,7 +153,7 @@ export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: A
                           'rounded-full border-2 border-green-600 bg-green-100 p-2',
                           question.state === 'STARTED' && question.id === activeQuestion?.id
                             ? 'opacity-50'
-                            : 'hover:shadow-md'
+                            : 'ring-offset-2 hover:shadow-md hover:ring-2 focus:ring-2'
                         )}
                       >
                         <PlayIcon className='h-4 w-4 text-green-600 md:h-5 md:w-5' />
@@ -170,7 +170,7 @@ export default function AdminEventDetailLeftSection({ setIsCreatingQuestion }: A
                           'rounded-full border-2 border-pink-600 bg-pink-50 p-2',
                           question.state === 'ENDED' || question.id !== activeQuestion?.id
                             ? 'opacity-50'
-                            : 'hover:shadow-md'
+                            : 'ring-offset-2 hover:shadow-md hover:ring-2 focus:ring-2'
                         )}
                       >
                         <StopIcon className='h-4 w-4 text-pink-600 md:h-5 md:w-5' />
