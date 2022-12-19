@@ -4,7 +4,7 @@
   "description": "WTF 009 description",
   "id": "wtf-009",
   "name": "WTF 009",
-  "ownerUserId": "user-001",
+  "collaborators": [],
   "questions": {
     "0": {
       "answers": {

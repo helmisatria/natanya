@@ -11,7 +11,7 @@ invariant(process.env.NEXT_PUBLIC_FIREBASE_APP_ID, 'NEXT_PUBLIC_FIREBASE_APP_ID 
 invariant(process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID, 'NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID is required')
 invariant(process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL, 'NEXT_PUBLIC_FIREBASE_DATABASE_URL is required')
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,

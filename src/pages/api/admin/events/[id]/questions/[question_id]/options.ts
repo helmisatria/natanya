@@ -29,7 +29,7 @@ export default async function routeCreateOption(req: NextApiRequest, res: NextAp
   })
 
   if (!result) {
-    return res.status(500).json({ message: 'Error creating new question' })
+    return res.status(400).json({ message: 'Error creating new question' })
   }
 
   return res.status(200).json({ message: 'Question created successfully' })

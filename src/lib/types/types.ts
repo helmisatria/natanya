@@ -19,7 +19,7 @@ export interface IEvent {
   description: string
   id: string
   name: string
-  ownerUserId: string
+  collaborators: string[]
   questions: { [key: string]: IQuestion }
   userNames: string[]
   state: 'PRESTART' | 'STARTED' | 'ENDED'

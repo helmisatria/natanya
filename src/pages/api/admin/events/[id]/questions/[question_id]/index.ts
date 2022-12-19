@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextApiRequest, NextApiResponse } from 'next'
-import { unstable_getServerSession } from 'next-auth'
+import { Session, unstable_getServerSession } from 'next-auth'
 
 import { IQuestion } from '@/lib/types/types'
 
@@ -22,10 +22,12 @@ export default async function routeUpdateQuestionState(req: NextApiRequest, res:
   const result = await adminUpdateQuestionState(
     req.query.id as string,
     req.query.question_id as string,
-    body.state as IQuestion['state']
+    body.state as IQuestion['state'],
+    session.user as Session
   )
+
   if (!result) {
-    return res.status(500).json({ message: 'Error updating event state' })
+    return res.status(400).json({ message: 'Error updating event state' })
   }
 
   return res.status(200).json({ message: 'Event state updated' })
