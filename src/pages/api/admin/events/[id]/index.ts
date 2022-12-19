@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextApiRequest, NextApiResponse } from 'next'
-import { unstable_getServerSession } from 'next-auth'
+import { Session, unstable_getServerSession } from 'next-auth'
 
 import { nextAuthOptions } from '@/pages/api/auth/[...nextauth]'
 import { adminUpdateEventState } from '@/server/events/event'
 
 export default async function routeUpdateEventState(req: NextApiRequest, res: NextApiResponse) {
   const session = await unstable_getServerSession(req, res, nextAuthOptions)
-  if (!session) {
+  if (!session || !session.user) {
     return res.status(401).json({ message: 'Not authenticated' })
   }
 
@@ -17,7 +17,7 @@ export default async function routeUpdateEventState(req: NextApiRequest, res: Ne
 
   const body = req.body
 
-  const result = await adminUpdateEventState(req.query.id as string, body.state as string)
+  const result = await adminUpdateEventState(req.query.id as string, body.state as string, session.user as Session)
   if (!result) {
     return res.status(500).json({ message: 'Error updating event state' })
   }

@@ -73,8 +73,16 @@ export const adminGetEventDetail = async (key: string) => {
   }
 }
 
-export const adminUpdateEventState = async (eventId: string, state: string) => {
+export const adminUpdateEventState = async (eventId: string, state: string, user: Session) => {
   try {
+    // validate is user is collaborator
+    const event = await adminGetEventDetail(eventId)
+
+    const isUserCollaborator = event?.collaborators?.includes(user.email as string)
+    if (!isUserCollaborator) {
+      return false
+    }
+
     await adminDb.ref(`events/${eventId}/state`).set(state)
     return true
   } catch (error) {
@@ -82,8 +90,21 @@ export const adminUpdateEventState = async (eventId: string, state: string) => {
   }
 }
 
-export const adminUpdateQuestionState = async (eventId: string, questionKey: string, state: IQuestion['state']) => {
+export const adminUpdateQuestionState = async (
+  eventId: string,
+  questionKey: string,
+  state: IQuestion['state'],
+  user: Session
+) => {
   try {
+    // validate is user is collaborator
+    const event = await adminGetEventDetail(eventId)
+
+    const isUserCollaborator = event?.collaborators?.includes(user.email as string)
+    if (!isUserCollaborator) {
+      return false
+    }
+
     if (state === 'STARTED') {
       adminDb.ref(`events/${eventId}/activeQuestionKey`).set(questionKey)
     }
