@@ -1,16 +1,22 @@
 import { nanoid } from 'nanoid'
+import { Session } from 'next-auth'
 import { z } from 'zod'
 
 import { adminDb } from '@/lib/firebase/firebase-admin'
 import { IEvent, IQuestion } from '@/lib/types/types'
 
-export const adminGetAllEvents = async () => {
+export const adminGetAllEvents = async ({ user }: { user: Session }) => {
   try {
     const data = await (await adminDb.ref(`events`).once('value')).val()
 
-    const dataToArray = Object.entries(data).map(([key, value]) => {
-      return typeof value === 'object' ? { ...value, key } : {}
-    })
+    const dataToArray = Object.entries(data)
+      .map(([key, value]) => {
+        return typeof value === 'object' ? { ...value, key } : {}
+      })
+      .filter((event) => {
+        const { collaborators } = event as IEvent
+        return collaborators?.includes(user.email as string)
+      })
 
     return dataToArray as IEvent[]
   } catch (error) {
@@ -24,7 +30,7 @@ export const createNewEventSchema = z.object({
   description: z.string().optional(),
 })
 
-export const adminCreateNewEvent = async (event: z.infer<typeof createNewEventSchema>) => {
+export const adminCreateNewEvent = async (event: z.infer<typeof createNewEventSchema>, user: Session) => {
   const { success: isValidBody } = createNewEventSchema.safeParse(event)
 
   if (!isValidBody) {
@@ -42,7 +48,7 @@ export const adminCreateNewEvent = async (event: z.infer<typeof createNewEventSc
     code: nanoid(6),
     userNames: {},
     questions: [],
-    ownerUserId: 'coming-soon',
+    collaborators: [user?.email],
     state: 'PRESTART',
     id: formattedName,
   }

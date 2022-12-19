@@ -4,21 +4,35 @@
   "description": "WTF 009 description",
   "id": "wtf-009",
   "name": "WTF 009",
-  "ownerUserId": "user-001",
+  "collaborators": [],
   "questions": {
     "0": {
       "answers": {
-        "userNameHere": ["Answer 1", "Answer 2"],
-        "anotherUserNameHere": ["Answer 1"]
+        "userNameHere": [
+          "Answer 1",
+          "Answer 2"
+        ],
+        "anotherUserNameHere": [
+          "Answer 1"
+        ]
       },
-      "correctAnswers": ["Option 1"],
+      "correctAnswers": [
+        "Option 1"
+      ],
       "id": "question-1",
-      "options": ["Option 1", "Option 2", "Option 3", "Option 4"],
+      "options": [
+        "Option 1",
+        "Option 2",
+        "Option 3",
+        "Option 4"
+      ],
       "order": 0,
       "question": "What is the name of the main character in the game?",
       "state": "PRESTART" // PRESTART, STARTED, ENDED
     }
   },
   "state": "PRESTART", // PRESTART, STARTED, ENDED
-  "userNames": ["Johnny"]
+  "userNames": [
+    "Johnny"
+  ]
 }

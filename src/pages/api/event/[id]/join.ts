@@ -47,7 +47,7 @@ export default async function joinEvent(req: NextApiRequest, res: NextApiRespons
   }
 
   adminDb.ref(`events/${eventId}/userNames`).push(userName)
-  const authenticatedUser = await decodeCurrentUser(req, res)
+  const authenticatedUser = decodeCurrentUser(req, res)
 
   const user = {
     ...(authenticatedUser || {}),
