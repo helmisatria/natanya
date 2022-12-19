@@ -10,6 +10,7 @@ import { useState } from 'react'
 
 import { db } from '@/lib/firebase/firebase-client'
 import { useEventStore } from '@/lib/hooks/useEventStore'
+import { IEvent } from '@/lib/types/types'
 
 import AdminLayout from '@/components/layout/AdminLayout'
 import AdminEventDetailLeftSection from '@/components/pages/admin/events-detail/AdminEventDetailLeftSection'
@@ -19,28 +20,35 @@ import { AdminOnlyPollingResult } from '@/components/PollResultAdmin'
 import Seo from '@/components/Seo'
 
 import { nextAuthOptions } from '@/pages/api/auth/[...nextauth]'
+import { adminGetEventDetail } from '@/server/events/event'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await unstable_getServerSession(context.req, context.res, nextAuthOptions)
-  if (!session) {
+  if (!session || !session?.user?.email) {
     return { redirect: { destination: '/login', permanent: false } }
   }
 
-  // const event = await adminGetEventDetail(context.params?.id as string)
+  const event = await adminGetEventDetail(context.params?.id as string)
+  const isCollaborator = event?.collaborators.includes(session.user?.email)
+
+  if (!isCollaborator) {
+    return { redirect: { destination: '/admin', permanent: false } }
+  }
 
   return {
-    props: {},
+    props: {
+      event,
+    },
   }
 }
 
-export default function EventDetailPage() {
+export default function EventDetailPage({ event: eventProps }: { event: IEvent }) {
   const [isCreatingQuestion, setIsCreatingQuestion] = useState(false)
   const [isCreatingOption, setIsCreatingOption] = useState(false)
 
   const { query } = useRouter()
 
   const {
-    event,
     setEvent,
     selectedQuestionKey,
     computed: { activeQuestion, selectedQuestion },
@@ -62,7 +70,7 @@ export default function EventDetailPage() {
 
   return (
     <AdminLayout>
-      <Seo title={`Natanya - ${event?.name}`} />
+      <Seo title={`Natanya - ${eventProps?.name ?? ''}`} />
 
       <DialogCreateNewOption
         open={isCreatingOption}
@@ -89,8 +97,8 @@ export default function EventDetailPage() {
             </a>
           </Link>
           <div data-sal='slide-right' className='flex items-baseline space-x-4'>
-            <h1 className='text-2xl font-bold text-white sm:text-4xl'>{event?.name}</h1>
-            <span className='text-sky-200'>#{event?.code}</span>
+            <h1 className='text-2xl font-bold text-white sm:text-4xl'>{eventProps?.name}</h1>
+            <span className='text-sky-200'>#{eventProps?.code}</span>
           </div>
         </div>
       </header>

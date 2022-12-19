@@ -20,7 +20,7 @@ export default async function routeCreateQuestion(req: NextApiRequest, res: Next
   const result = await adminCreateNewQuestion(req.query.id as string, body.questions)
 
   if (!result) {
-    return res.status(500).json({ message: 'Error creating new question' })
+    return res.status(400).json({ message: 'Error creating new question' })
   }
 
   return res.status(200).json({ message: 'Question created successfully' })

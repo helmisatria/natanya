@@ -19,7 +19,7 @@ export default async function routeUpdateEventState(req: NextApiRequest, res: Ne
 
   const result = await adminUpdateEventState(req.query.id as string, body.state as string, session.user as Session)
   if (!result) {
-    return res.status(500).json({ message: 'Error updating event state' })
+    return res.status(400).json({ message: 'Error updating event state' })
   }
 
   return res.status(200).json({ message: 'Event state updated' })
